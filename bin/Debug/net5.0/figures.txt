@@ -1,0 +1,52 @@
+==========
+ID: 1
+Type: Round
+R: 3
+==========
+==========
+ID: 2
+Type: Rectangle
+HZ: 12,2
+VC: 7,8
+==========
+==========
+ID: 3
+Type: Round
+R: 6
+==========
+==========
+ID: 4
+Type: Square
+AS: 6
+==========
+==========
+ID: 5
+Type: Square
+AS: 3
+==========
+==========
+ID: 6
+Type: Rectangle
+HZ: 5
+VC: 6
+==========
+==========
+ID: 7
+Type: Trinagle
+LS: 3
+RS: 5
+BS: 3
+==========
+==========
+ID: 8
+Type: Rectangle
+HZ: 2,4
+VC: 2
+==========
+==========
+ID: 9
+Type: Trinagle
+LS: 6
+RS: 7
+BS: 3,3
+==========

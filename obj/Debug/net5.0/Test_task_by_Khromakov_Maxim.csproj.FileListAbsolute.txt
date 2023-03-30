@@ -1,0 +1,16 @@
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\Test_task_by_Khromakov_Maxim.exe
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\Test_task_by_Khromakov_Maxim.deps.json
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\Test_task_by_Khromakov_Maxim.runtimeconfig.json
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\Test_task_by_Khromakov_Maxim.runtimeconfig.dev.json
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\Test_task_by_Khromakov_Maxim.dll
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\ref\Test_task_by_Khromakov_Maxim.dll
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\bin\Debug\net5.0\Test_task_by_Khromakov_Maxim.pdb
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.csproj.AssemblyReference.cache
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.AssemblyInfoInputs.cache
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.AssemblyInfo.cs
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.csproj.CoreCompileInputs.cache
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.dll
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\ref\Test_task_by_Khromakov_Maxim.dll
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.pdb
+C:\Users\Виктор\source\repos\Test_task_by_Khromakov_Maxim\obj\Debug\net5.0\Test_task_by_Khromakov_Maxim.genruntimeconfig.cache

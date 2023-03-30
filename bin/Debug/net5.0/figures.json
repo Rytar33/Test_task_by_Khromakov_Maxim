@@ -1,0 +1,20 @@
+[
+  {
+    "ID_Figure": 1,
+    "type": "trinagle",
+    "sides": {
+      "leftSide": 8,
+      "rightSide": 10,
+      "bottomSide": 6
+    },
+    "date_checkout": "2023-03-25T23:05:11-03:23"
+  },
+  {
+    "ID_Figure": 2,
+    "type": "round",
+    "sides": {
+      "radius": 6
+    },
+    "date_checkout": "2023-03-25T23:05:11-05:12"
+  }
+]
