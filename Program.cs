@@ -716,7 +716,7 @@ namespace Test_task_by_Khromakov_Maxim
                                 case "2": // ..типам
                                     Clear();
                                     Log("");
-                                    Write("Введите тип: ");
+                                    Write("Введите тип на английском (Round, Square, Rectangle, Trinagle): ");
                                     string type = ReadLine();
                                     WriteInformation witype = new WriteInformation();
                                     witype.Print("figures.txt", "Type", type);
@@ -759,7 +759,7 @@ namespace Test_task_by_Khromakov_Maxim
                             WriteLine();
                             Clear();
                             Log("");
-                            Write("Введите тип фигуры на который вы бы хотели поменять: ");
+                            Write("Введите тип фигуры на который вы бы хотели поменять(по русски): ");
                             string typeName = ReadLine();
                             switch (typeName)
                             {
