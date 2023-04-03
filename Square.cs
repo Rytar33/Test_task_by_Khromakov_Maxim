@@ -5,21 +5,21 @@ namespace Test_task_by_Khromakov_Maxim
 {
     class Square : IFigure
     {
-        private double SizeOfAllSides { get; set; } // Размер всех сторон квадрата
+        private double SizeOfAllSides { get; set; } // Р Р°Р·РјРµСЂ РІСЃРµС… СЃС‚РѕСЂРѕРЅ РєРІР°РґСЂР°С‚Р°
         public Square(double sizeOfAllSides) => this.SizeOfAllSides = sizeOfAllSides;
 
         public void PrintFigure(int id)
         {
             WriteLine("===============================\n"
-                + $"ID фигуры: {id}\n"
-                + "Фигура: Квадрат\n"
-                + $"Размер каждой стороны: {SizeOfAllSides}\n"
-                + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
-                + $"Площадь: {Math.Round(GetArea(), 2)}\n"
+                + $"ID С„РёРіСѓСЂС‹: {id}\n"
+                + "Р¤РёРіСѓСЂР°: РљРІР°РґСЂР°С‚\n"
+                + $"Р Р°Р·РјРµСЂ РєР°Р¶РґРѕР№ СЃС‚РѕСЂРѕРЅС‹: {SizeOfAllSides}\n"
+                + $"РџРµСЂРёРјРµС‚СЂ: {Math.Round(GetPerimeter(), 2)}\n"
+                + $"РџР»РѕС‰Р°РґСЊ: {Math.Round(GetArea(), 2)}\n"
                 + "===============================");
         }
-        public double GetArea() => Math.Pow(SizeOfAllSides, 2); // Получение площади квадрата
-        public double GetPerimeter() => SizeOfAllSides * 4; // Получение периметра квадрата
+        public double GetArea() => Math.Pow(SizeOfAllSides, 2); // РџРѕР»СѓС‡РµРЅРёРµ РїР»РѕС‰Р°РґРё РєРІР°РґСЂР°С‚Р°
+        public double GetPerimeter() => SizeOfAllSides * 4; // РџРѕР»СѓС‡РµРЅРёРµ РїРµСЂРёРјРµС‚СЂР° РєРІР°РґСЂР°С‚Р°
 
     }
 }

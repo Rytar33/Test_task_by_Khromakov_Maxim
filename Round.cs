@@ -5,20 +5,20 @@ namespace Test_task_by_Khromakov_Maxim
 {
     class Round : IFigure
     {
-        private double Radius { get; set; } // Радиус круга
+        private double Radius { get; set; } // Р Р°РґРёСѓСЃ РєСЂСѓРіР°
         public Round(double radius) => this.Radius = radius;
 
         public void PrintFigure(int id)
         {
             WriteLine("===============================\n"
-                + $"ID фигуры: {id}\n"
-                + "Фигура: Круг\n"
-                + $"Радиус круга: {Radius}\n"
-                + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
-                + $"Площадь: {Math.Round(GetArea(), 2)}\n"
+                + $"ID С„РёРіСѓСЂС‹: {id}\n"
+                + "Р¤РёРіСѓСЂР°: РљСЂСѓРі\n"
+                + $"Р Р°РґРёСѓСЃ РєСЂСѓРіР°: {Radius}\n"
+                + $"РџРµСЂРёРјРµС‚СЂ: {Math.Round(GetPerimeter(), 2)}\n"
+                + $"РџР»РѕС‰Р°РґСЊ: {Math.Round(GetArea(), 2)}\n"
                 + "===============================");
         }
-        public double GetArea() => Math.PI * Math.Pow(Radius, 2); // Получение площади круга
-        public double GetPerimeter() => 2 * Math.PI * Radius; // Получение периметра круга
+        public double GetArea() => Math.PI * Math.Pow(Radius, 2); // РџРѕР»СѓС‡РµРЅРёРµ РїР»РѕС‰Р°РґРё РєСЂСѓРіР°
+        public double GetPerimeter() => 2 * Math.PI * Radius; // РџРѕР»СѓС‡РµРЅРёРµ РїРµСЂРёРјРµС‚СЂР° РєСЂСѓРіР°
     }
 }

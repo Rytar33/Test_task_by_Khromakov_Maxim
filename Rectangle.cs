@@ -5,8 +5,8 @@ namespace Test_task_by_Khromakov_Maxim
 {
     class Rectangle : IFigure
     {
-        private double Horizontally { get; set; } // Горизонтальная сторона
-        private double Vertically { get; set; } // Вертикальная сторона
+        private double Horizontally { get; set; } // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РѕСЂРѕРЅР°
+        private double Vertically { get; set; } // Р’РµСЂС‚РёРєР°Р»СЊРЅР°СЏ СЃС‚РѕСЂРѕРЅР°
         public Rectangle(double horizontally, double vertically)
         {
             this.Horizontally = horizontally;
@@ -15,17 +15,17 @@ namespace Test_task_by_Khromakov_Maxim
         public void PrintFigure(int id)
         {
             WriteLine("===============================\n"
-                + $"ID фигуры: {id}\n"
-                + "Фигура: Прямоугольник\n"
-                + "\tРазмеры сторон\n"
-                + $"По горизонтали: {Horizontally}\n"
-                + $"По вертикали: {Vertically}\n"
-                + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
-                + $"Площадь: {Math.Round(GetArea(), 2)}\n"
+                + $"ID С„РёРіСѓСЂС‹: {id}\n"
+                + "Р¤РёРіСѓСЂР°: РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє\n"
+                + "\tР Р°Р·РјРµСЂС‹ СЃС‚РѕСЂРѕРЅ\n"
+                + $"РџРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё: {Horizontally}\n"
+                + $"РџРѕ РІРµСЂС‚РёРєР°Р»Рё: {Vertically}\n"
+                + $"РџРµСЂРёРјРµС‚СЂ: {Math.Round(GetPerimeter(), 2)}\n"
+                + $"РџР»РѕС‰Р°РґСЊ: {Math.Round(GetArea(), 2)}\n"
                 + "===============================");
         }
-        public double GetArea() => Horizontally * Vertically; // Получение площади прямоугольника
-        public double GetPerimeter() => (2 * Horizontally) + (2 * Vertically); // Получение периметра прямоугольника
+        public double GetArea() => Horizontally * Vertically; // РџРѕР»СѓС‡РµРЅРёРµ РїР»РѕС‰Р°РґРё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
+        public double GetPerimeter() => (2 * Horizontally) + (2 * Vertically); // РџРѕР»СѓС‡РµРЅРёРµ РїРµСЂРёРјРµС‚СЂР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
 
     }
 }
