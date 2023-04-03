@@ -72,7 +72,7 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         catch (Exception) // Если введена строка, то выдаёт ошибку и возвращает заново переписывать
                                         {
-                                            NumberException();
+                                            ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                             continue;
                                             throw;
                                         }
@@ -89,10 +89,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                 .PutEnd("figures.txt", "Trinagle", sizeTrinagle, shortNameSide);
                                             new Trinagle(a, b, c)
                                                 .PrintFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateFigure = false;
+                                            ClickToContinue(isCreateFigure, "Succses");
                                         }
 
                                     } while (isCreateFigure);
@@ -113,7 +110,7 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         catch (Exception)
                                         {
-                                            NumberException();
+                                            ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                             continue;
                                             throw;
                                         }
@@ -130,10 +127,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                 .PutEnd("figures.txt", "Square", sizeSquare, shortNameSide);
                                             new Square(size)
                                                 .PrintFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateFigure = false;
+                                            ClickToContinue(isCreateFigure, "Succses");
                                         }
                                     } while (isCreateFigure);
                                     break;
@@ -157,7 +151,7 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         catch (Exception)
                                         {
-                                            NumberException();
+                                            ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                             continue;
                                             throw;
                                         }
@@ -181,10 +175,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                         .PutEnd("figures.txt", "Square", sizeSquare, shortNameSide);
                                                     new Square(vert)
                                                         .PrintFigure(ID);
-                                                    Log("Succses");
-                                                    Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                                    ReadKey();
-                                                    isCreateFigure = false;
+                                                    ClickToContinue(isCreateFigure, "Succses");
                                                     break;
                                                 case "Нет":
                                                     break;
@@ -200,10 +191,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                 .PutEnd("figures.txt", "Rectangle", sizeRectangle, shortNameSide);
                                             new Rectangle(vert, goriz)
                                                 .PrintFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateFigure = false;
+                                            ClickToContinue(isCreateFigure, "Succses");
                                         }
                                     } while (isCreateFigure);
                                     break;
@@ -223,7 +211,7 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         catch (Exception)
                                         {
-                                            NumberException();
+                                            ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                             continue;
                                             throw;
                                         }
@@ -240,10 +228,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                 .PutEnd("figures.txt", "Round", sizeRadius, shortNameSide);
                                             new Round(radius)
                                                 .PrintFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateFigure = false;
+                                            ClickToContinue(isCreateFigure, "Succses");
                                         }
                                     } while (isCreateFigure);
                                     break;
@@ -251,10 +236,7 @@ namespace Test_task_by_Khromakov_Maxim
                                     isCreateFigure = false;
                                     break;
                                 default:
-                                    WriteLine();
-                                    Log("Error");
-                                    Write("Вы ввели неверное значение! Попробуйте снова.");
-                                    ReadKey();
+                                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверное значение! ");
                                     break;
                             }
                         } while (isCreateFigure);
@@ -264,7 +246,7 @@ namespace Test_task_by_Khromakov_Maxim
                         {
                             Clear();
                             WriteLine("1) По ID\n" + "2) По типам(работает с багами)\n" + "3) Все\n" + "4) Назад");
-                            Log("");
+                            Log();
                             Write("Выберите как вы хотите выбрать: ");
                             string choiseType = ReadLine();
                             switch (choiseType)
@@ -280,42 +262,29 @@ namespace Test_task_by_Khromakov_Maxim
                                     }
                                     catch (Exception)
                                     {
-                                        NumberException();
+                                        ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                         continue;
                                         throw;
                                     }
                                     new WriteInformation().Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    ClickToContinue(isPrintFigure, "Succses");
                                     break;
                                 case "2": // ..типам
                                     Clear();
-                                    Log();
-                                    Write("Введите тип на английском (Round, Square, Rectangle, Trinagle): ");
+                                    Enter("тип на английском (Round, Square, Rectangle, Trinagle)", true);
                                     string type = ReadLine();
                                     new WriteInformation().Print("figures.txt", "Type", type);
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    ClickToContinue(isPrintFigure, "Succses");
                                     break;
                                 case "3": // Все
                                     new WriteInformation().Print("figures.txt", "All");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    ClickToContinue(isPrintFigure, "Succses");
                                     break;
                                 case "4": // Назад
                                     isPrintFigure = false;
                                     break;
                                 default:
-                                    WriteLine();
-                                    Log("Error");
-                                    Write("Вы ввели неверное значение! Нажмите чтобы продолжить. ");
-                                    ReadKey();
+                                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверное значение! ");
                                     break;
                             }
                         } while (isPrintFigure);
@@ -326,14 +295,10 @@ namespace Test_task_by_Khromakov_Maxim
                             Clear();
                             WriteInformation wii = new WriteInformation();
                             wii.Print("figures.txt", "All"); // Предоставление пользователю список фигур, которые он может изменить
-                            WriteLine();
-                            Log();
-                            Write("Введите ID фигуры которую вы бы хотели изменить: ");
+                            Enter("ID фигуры которую вы бы хотели изменить");
                             int id = int.Parse(ReadLine());
-                            WriteLine();
                             Clear();
-                            Log();
-                            Write("Введите тип фигуры на который вы бы хотели поменять(по русски): ");
+                            Enter("тип фигуры на который вы бы хотели поменять(по русски)", true);
                             string typeName = ReadLine();
                             switch (typeName)
                             {
@@ -341,83 +306,50 @@ namespace Test_task_by_Khromakov_Maxim
                                     typeName = "Trinagle";
                                     double[] sizesTrinagle = new double[3];
                                     string[] nameKeyTrinagle = { namedAllSize[2], namedAllSize[1], namedAllSize[0] }; // Выводим всё в обратном порядке, как и с записью
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите левую сторону: ");
+                                    Enter("левую сторону");
                                     sizesTrinagle[2] = double.Parse(ReadLine());
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите правую сторону: ");
+                                    Enter("правую сторону");
                                     sizesTrinagle[1] = double.Parse(ReadLine());
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите нижнюю сторону: ");
+                                    Enter("основание");
                                     sizesTrinagle[0] = double.Parse(ReadLine());
                                     wii.Update("figures.txt", id, typeName, sizesTrinagle, nameKeyTrinagle);
                                     wii.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    isChangeFigure = false;
+                                    ClickToContinue(isChangeFigure, "Succses");
                                     break;
                                 case "Квадрат":
                                     typeName = "Square";
                                     double[] sizesSquare = new double[1];
                                     string[] nameKeySquare = { namedAllSize[5] };
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите все 4 стороны: ");
+                                    Enter("все 4 стороны");
                                     sizesSquare[0] = double.Parse(ReadLine());
                                     wii.Update("figures.txt", id, typeName, sizesSquare, nameKeySquare);
                                     wii.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    isChangeFigure = false;
+                                    ClickToContinue(isChangeFigure, "Succses");
                                     break;
                                 case "Прямоугольник":
                                     typeName = "Rectangle";
                                     double[] sizesRectangle = new double[2];
                                     string[] nameKeyRectangle = { namedAllSize[4], namedAllSize[3] };
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите размер по горизонтали: ");
+                                    Enter("размер по горизонтали");
                                     sizesRectangle[1] = double.Parse(ReadLine());
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите размер по вертикали: ");
+                                    Enter("размер по вертикали");
                                     sizesRectangle[0] = double.Parse(ReadLine());
                                     wii.Update("figures.txt", id, typeName, sizesRectangle, nameKeyRectangle);
                                     wii.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    isChangeFigure = false;
+                                    ClickToContinue(isChangeFigure, "Succses");
                                     break;
                                 case "Круг":
                                     typeName = "Round";
                                     double[] sizesRound = new double[1];
                                     string[] nameKeyRound = { namedAllSize[6] };
-                                    WriteLine();
-                                    Log();
-                                    Write("Введите окружность: ");
+                                    Enter("окружность");
                                     sizesRound[0] = double.Parse(ReadLine());
                                     wii.Update("figures.txt", id, typeName, sizesRound, nameKeyRound);
                                     wii.Print("figures.txt", "By ID", $"{id}");
-                                    isChangeFigure = false;
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    ClickToContinue(isChangeFigure, "Succses");
                                     break;
                                 default:
-                                    WriteLine();
-                                    Log("Error");
-                                    Write("Вы ввели неверный тип! Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверный тип! ");
                                     break;
                             }
                             
@@ -428,10 +360,7 @@ namespace Test_task_by_Khromakov_Maxim
                         isMainMenu = false;
                         break;
                     default:
-                        WriteLine();
-                        Log("Error");
-                        Write("Вы ввели неверное значение! Попробуйте снова.");
-                        ReadKey();
+                        ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверное значение! ");
                         break;
                 }
             } while (isMainMenu);
@@ -455,9 +384,19 @@ namespace Test_task_by_Khromakov_Maxim
                     break;
             }
         }
-        static void ClickToContinue()
+        static void Enter(string textEnter, bool isTheBeginning = false)
         {
-
+            if (!isTheBeginning) WriteLine();
+            Log();
+            Write($"Введите {textEnter}: ");
+        }
+        static void ClickToContinue(bool isWork = false, string typeLog = "", string anotherText = "")
+        {
+            isWork = false;
+            WriteLine();
+            Log($"{typeLog}");
+            Write($"{anotherText}Нажмите чтобы продолжить: ");
+            ReadKey();
         }
         static void LessThanOrEqualToZero()
         {
@@ -467,15 +406,7 @@ namespace Test_task_by_Khromakov_Maxim
             Write("Радиус не может быть равен или быть меньше 0!");
             Thread.Sleep(2000);
         }
-        static void NumberException()
-        {
-            // Вывод однотипной ошибки в функцию т.к. она встречается довольно часто
-            WriteLine("\n");
-            Log("Error");
-            Write("Вы ввели НЕ числовое значение! Для продолжения нажмите любую клавишу: \n\n");
-            ReadKey();
-        }
-        static void Log(string type)
+        static void Log(string type = "")
         {
             // Логи информации с временем и датой их отправки
             var getForegroundColor = type switch {
@@ -484,14 +415,6 @@ namespace Test_task_by_Khromakov_Maxim
                 "Succses" => ForegroundColor = ConsoleColor.Green,
                 _ => ForegroundColor = ConsoleColor.DarkGray
             };
-            Write($"[{DateTime.Now}]");
-            ForegroundColor = ConsoleColor.White;
-            Write(": ");
-        }
-        static void Log()
-        {
-            // Логи информации с временем и датой их отправки
-            ForegroundColor = ConsoleColor.DarkGray;
             Write($"[{DateTime.Now}]");
             ForegroundColor = ConsoleColor.White;
             Write(": ");
