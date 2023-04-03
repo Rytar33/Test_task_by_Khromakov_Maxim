@@ -3,29 +3,29 @@ using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
-    class Rectangle : Figure
+    class Rectangle : IFigure
     {
-        private double horizontally { get; set; } // Горизонтальная сторона
-        private double vertically { get; set; } // Вертикальная сторона
+        private double Horizontally { get; set; } // Горизонтальная сторона
+        private double Vertically { get; set; } // Вертикальная сторона
         public Rectangle(double horizontally, double vertically)
         {
-            this.horizontally = horizontally;
-            this.vertically = vertically;
+            this.Horizontally = horizontally;
+            this.Vertically = vertically;
         }
-        public override void GetFigure(int id)
+        public void PrintFigure(int id)
         {
             WriteLine("===============================\n"
                 + $"ID фигуры: {id}\n"
                 + "Фигура: Прямоугольник\n"
                 + "\tРазмеры сторон\n"
-                + $"По горизонтали: {horizontally}\n"
-                + $"По вертикали: {vertically}\n"
-                + $"Периметр: {Math.Round(Perimeter(), 2)}\n"
-                + $"Площадь: {Math.Round(Area(), 2)}\n"
+                + $"По горизонтали: {Horizontally}\n"
+                + $"По вертикали: {Vertically}\n"
+                + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
+                + $"Площадь: {Math.Round(GetArea(), 2)}\n"
                 + "===============================");
         }
-        public override double Area() => horizontally * vertically; // Получение площади прямоугольника
-        public override double Perimeter() => (2 * horizontally) + (2 * vertically); // Получение периметра прямоугольника
+        public double GetArea() => Horizontally * Vertically; // Получение площади прямоугольника
+        public double GetPerimeter() => (2 * Horizontally) + (2 * Vertically); // Получение периметра прямоугольника
 
     }
 }

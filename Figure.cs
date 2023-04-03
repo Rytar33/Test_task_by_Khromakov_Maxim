@@ -1,9 +1,9 @@
 namespace Test_task_by_Khromakov_Maxim
 {
-    abstract class Figure
+    interface IFigure
     {
-        public abstract void GetFigure(int ID);
-        public abstract double Area();
-        public abstract double Perimeter();
+        public abstract void PrintFigure(int ID);
+        public abstract double GetArea();
+        public abstract double GetPerimeter();
     }
 }

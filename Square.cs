@@ -3,23 +3,23 @@ using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
-    class Square : Figure
+    class Square : IFigure
     {
-        private double SizeSides { get; set; } // Размер всех 4-х сторон квадрата
-        public Square(double sizeSides) => this.SizeSides = sizeSides;
+        private double SizeOfAllSides { get; set; } // Размер всех сторон квадрата
+        public Square(double sizeOfAllSides) => this.SizeOfAllSides = sizeOfAllSides;
 
-        public override void GetFigure(int id)
+        public void PrintFigure(int id)
         {
             WriteLine("===============================\n"
                 + $"ID фигуры: {id}\n"
                 + "Фигура: Квадрат\n"
-                + $"Размер каждой стороны: {SizeSides}\n"
-                + $"Периметр: {Math.Round(Perimeter(), 2)}\n"
-                + $"Площадь: {Math.Round(Area(), 2)}\n"
+                + $"Размер каждой стороны: {SizeOfAllSides}\n"
+                + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
+                + $"Площадь: {Math.Round(GetArea(), 2)}\n"
                 + "===============================");
         }
-        public override double Area() => Math.Pow(SizeSides, 2); // Получение площади квадрата
-        public override double Perimeter() => SizeSides * 4; // Получение периметра квадрата
+        public double GetArea() => Math.Pow(SizeOfAllSides, 2); // Получение площади квадрата
+        public double GetPerimeter() => SizeOfAllSides * 4; // Получение периметра квадрата
 
     }
 }

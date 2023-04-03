@@ -89,7 +89,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             string[] shortNameSide = { namedAllSize[0], namedAllSize[1], namedAllSize[2] };
                                             WriteInformation wi = new WriteInformation();
                                             int ID = wi.PutEnd("figures.txt", "Trinagle", sizeTrinagle, shortNameSide);
-                                            trinagle.GetFigure(ID);
+                                            trinagle.PrintFigure(ID);
                                             Log("Succses");
                                             Write("Фигура создана! Нажмите чтобы продолжить: ");
                                             ReadKey();
@@ -134,7 +134,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             string[] shortNameSide = { namedAllSize[5] };
                                             WriteInformation wi = new WriteInformation();
                                             int ID = wi.PutEnd("figures.txt", "Square", sizeSquare, shortNameSide);
-                                            square.GetFigure(ID);
+                                            square.PrintFigure(ID);
                                             Log("Succses");
                                             Write("Фигура создана! Нажмите чтобы продолжить: ");
                                             ReadKey();
@@ -161,7 +161,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             Write("Введите размер по горизонтали: ");
                                             goriz = Convert.ToDouble(ReadLine());
                                         }
-                                        catch (Exception e)
+                                        catch (Exception)
                                         {
                                             NumberException();
                                             continue;
@@ -189,7 +189,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                     string[] shortNameSide = { namedAllSize[5] };
                                                     WriteInformation wi = new WriteInformation();
                                                     int ID = wi.PutEnd("figures.txt", "Square", sizeSquare, shortNameSide);
-                                                    square.GetFigure(ID);
+                                                    square.PrintFigure(ID);
                                                     Log("Succses");
                                                     Write("Фигура создана! Нажмите чтобы продолжить: ");
                                                     ReadKey();
@@ -208,7 +208,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             string[] shortNameSide = { namedAllSize[3], namedAllSize[4] };
                                             WriteInformation wi = new WriteInformation();
                                             int ID = wi.PutEnd("figures.txt", "Rectangle", sizeRectangle, shortNameSide);
-                                            rectangle.GetFigure(ID);
+                                            rectangle.PrintFigure(ID);
                                             Log("Succses");
                                             Write("Фигура создана! Нажмите чтобы продолжить: ");
                                             ReadKey();
@@ -252,7 +252,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             string[] shortNameSide = { namedAllSize[6] };
                                             WriteInformation wi = new WriteInformation();
                                             int ID = wi.PutEnd("figures.txt", "Round", sizeRadius, shortNameSide);
-                                            round.GetFigure(ID);
+                                            round.PrintFigure(ID);
                                             Log("Succses");
                                             Write("Фигура создана! Нажмите чтобы продолжить: ");
                                             ReadKey();
@@ -488,10 +488,24 @@ namespace Test_task_by_Khromakov_Maxim
         static void Log(string type)
         {
             // Логи информации с временем и датой их отправки
-            if (type == "Error") ForegroundColor = ConsoleColor.Red;
-            else if (type == "Warning") ForegroundColor = ConsoleColor.Yellow;
-            else if (type == "Succses") ForegroundColor = ConsoleColor.Green;
-            else ForegroundColor = ConsoleColor.DarkGray;
+            var getForegroundColor = type switch {
+                "Error" => ForegroundColor = ConsoleColor.Red,
+                "Warning" => ForegroundColor = ConsoleColor.Yellow,
+                "Succses" => ForegroundColor = ConsoleColor.Green,
+                _ => ForegroundColor = ConsoleColor.DarkGray
+            };
+            //if (type == "Error") ForegroundColor = ConsoleColor.Red;
+            //else if (type == "Warning") ForegroundColor = ConsoleColor.Yellow;
+            //else if (type == "Succses") ForegroundColor = ConsoleColor.Green;
+            //else ForegroundColor = ConsoleColor.DarkGray;
+            Write($"[{DateTime.Now}]");
+            ForegroundColor = ConsoleColor.White;
+            Write(": ");
+        }
+        static void Log()
+        {
+            // Логи информации с временем и датой их отправки
+            ForegroundColor = ConsoleColor.DarkGray;
             Write($"[{DateTime.Now}]");
             ForegroundColor = ConsoleColor.White;
             Write(": ");

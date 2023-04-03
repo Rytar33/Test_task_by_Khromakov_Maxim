@@ -79,55 +79,42 @@ namespace Test_task_by_Khromakov_Maxim
                                     }
                                     string[] typeName = data[indID + 1].Split(": "); // Следующей строкой ищем тип фигуры с ID фигуры
                                     List<double> infSide = new List<double>();
-                                    int ind = indID + 2; // Просмотр сразу к значениям фигуры
-                                    switch (typeName[1])
+                                    for (int ind = indID + 2; data[ind] != "=========="; ind++)
                                     {
-                                        case "Trinagle":
-                                            while (true)
+                                        string[] sides = data[ind].Split(": ");
+                                        infSide.Add(double.Parse(sides[1])); // Добавляем в лист информацию
+                                        if (data[ind + 1] == "==========")
+                                        {
+                                            //var result = typeName[1] switch
+                                            //{
+                                            //    "Trinagle" => new Trinagle(infSide[0], infSide[1], infSide[2]).PrintFigure(searchByID),
+                                            //    "Square" => new Square(infSide[0]).PrintFigure(searchByID),
+                                            //    "Rectangle" => new Rectangle(infSide[0], infSide[1]).PrintFigure(searchByID),
+                                            //    "Round" => new Round(infSide[0]).PrintFigure(searchByID),
+                                            //    _ => throw new System.Exception("Да")
+                                            //};
+                                            switch (typeName[1])
                                             {
-                                                string[] sides = data[ind].Split(": ");
-                                                infSide.Add(double.Parse(sides[1])); // Добавляем в лист информацию
-                                                if (data[ind + 1] == "==========") break; // Если следующая строка закончиться то цикл прекращается
-                                                ind++;
+                                                case "Trinagle":
+                                                    new Trinagle(infSide[0], infSide[1], infSide[2])
+                                                        .PrintFigure(searchByID);
+                                                    break;
+                                                case "Square":
+                                                    new Square(infSide[0])
+                                                        .PrintFigure(searchByID);
+                                                    break;
+                                                case "Rectangle":
+                                                    new Rectangle(infSide[0], infSide[1])
+                                                        .PrintFigure(searchByID);
+                                                    break;
+                                                case "Round":
+                                                    new Round(infSide[0])
+                                                        .PrintFigure(searchByID);
+                                                    break;
+                                                default:
+                                                    break;
                                             }
-                                            Trinagle trinagle = new Trinagle(infSide[0], infSide[1], infSide[2]);
-                                            trinagle.GetFigure(searchByID); // Вывод самой фигуры
-                                            break;
-                                        case "Square":
-                                            while (true)
-                                            {
-                                                string[] sides = data[ind].Split(": ");
-                                                infSide.Add(double.Parse(sides[1]));
-                                                if (data[ind + 1] == "==========") break;
-                                                ind++;
-                                            }
-                                            Square square = new Square(infSide[0]);
-                                            square.GetFigure(searchByID);
-                                            break;
-                                        case "Rectangle":
-                                            while (true)
-                                            {
-                                                string[] sides = data[ind].Split(": ");
-                                                infSide.Add(double.Parse(sides[1]));
-                                                if (data[ind + 1] == "==========") break;
-                                                ind++;
-                                            }
-                                            Rectangle rectangle = new Rectangle(infSide[0], infSide[1]);
-                                            rectangle.GetFigure(searchByID);
-                                            break;
-                                        case "Round":
-                                            while (true)
-                                            {
-                                                string[] sides = data[ind].Split(": ");
-                                                infSide.Add(double.Parse(sides[1]));
-                                                if (data[ind + 1] == "==========") break;
-                                                ind++;
-                                            }
-                                            Round round = new Round(infSide[0]);
-                                            round.GetFigure(searchByID);
-                                            break;
-                                        default:
-                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -152,8 +139,8 @@ namespace Test_task_by_Khromakov_Maxim
                                             {
                                                 case "Square":
                                                     double size = double.Parse(keyItem[1]);
-                                                    Square square = new Square(size);
-                                                    square.GetFigure(id);
+                                                    new Square(size)
+                                                        .PrintFigure(id);
                                                     countFigure++;
                                                     break;
                                                 case "Rectangle":
@@ -161,8 +148,8 @@ namespace Test_task_by_Khromakov_Maxim
                                                     line = rd.ReadLine();
                                                     keyItem = line.Split(": ");
                                                     double sizeVc = double.Parse(keyItem[1]);
-                                                    Rectangle rectangle = new Rectangle(sizeHz, sizeVc);
-                                                    rectangle.GetFigure(id);
+                                                    new Rectangle(sizeHz, sizeVc)
+                                                        .PrintFigure(id);
                                                     countFigure++;
                                                     break;
                                                 case "Trinagle":
@@ -173,14 +160,14 @@ namespace Test_task_by_Khromakov_Maxim
                                                     line = rd.ReadLine();
                                                     keyItem = line.Split(": ");
                                                     double sizeB = double.Parse(keyItem[1]);
-                                                    Trinagle trinagle = new Trinagle(sizeR, sizeL, sizeB);
-                                                    trinagle.GetFigure(id);
+                                                    new Trinagle(sizeR, sizeL, sizeB)
+                                                        .PrintFigure(id);
                                                     countFigure++;
                                                     break;
                                                 case "Round":
                                                     double radius = double.Parse(keyItem[1]);
-                                                    Round round = new Round(radius);
-                                                    round.GetFigure(id);
+                                                    new Round(radius)
+                                                        .PrintFigure(id);
                                                     countFigure++;
                                                     break;
                                                 default:
@@ -221,12 +208,21 @@ namespace Test_task_by_Khromakov_Maxim
                                 else if (keyItem[0] == "Type") type = keyItem[1]; // Так же и тип фигуры
                                 else if (line != "==========")
                                 {
+                                    //for (int i = 0; line != "=========="; i++)
+                                    //{
+                                    //    double[] sides = 
+                                    //    if(i == 0)
+                                    //    {
+
+                                    //        continue;
+                                    //    }
+                                    //}
                                     switch (type)
                                     {
                                         case "Square":
                                             double size = double.Parse(keyItem[1]);
-                                            Square square = new Square(size);
-                                            square.GetFigure(Id);
+                                            new Square(size)
+                                                .PrintFigure(Id);
                                             countFigures[0]++;
                                             break;
                                         case "Rectangle":
@@ -234,8 +230,8 @@ namespace Test_task_by_Khromakov_Maxim
                                             line = rd.ReadLine(); // Переход на следующую строку
                                             keyItem = line.Split(": ");
                                             double sizeVc = double.Parse(keyItem[1]);
-                                            Rectangle rectangle = new Rectangle(sizeHz, sizeVc);
-                                            rectangle.GetFigure(Id);
+                                            new Rectangle(sizeHz, sizeVc)
+                                                .PrintFigure(Id);
                                             countFigures[1]++;
                                             break;
                                         case "Trinagle":
@@ -246,14 +242,14 @@ namespace Test_task_by_Khromakov_Maxim
                                             line = rd.ReadLine();
                                             keyItem = line.Split(": ");
                                             double sizeB = double.Parse(keyItem[1]);
-                                            Trinagle trinagle = new Trinagle(sizeR, sizeL, sizeB);
-                                            trinagle.GetFigure(Id);
+                                            new Trinagle(sizeR, sizeL, sizeB)
+                                                .PrintFigure(Id);
                                             countFigures[2]++;
                                             break;
                                         case "Round":
                                             double radius = double.Parse(keyItem[1]);
-                                            Round round = new Round(radius);
-                                            round.GetFigure(Id);
+                                            new Round(radius)
+                                                .PrintFigure(Id);
                                             countFigures[3]++;
                                             break;
                                         default:
