@@ -29,10 +29,10 @@ namespace Test_task_by_Khromakov_Maxim
                 bool isCreateFigure = true, isPrintFigure = true, isChangeFigure = true;
                 string[] namedAllSize = { "LS", "RS", "BS", "HZ", "VC", "AS", "R" }; // Запись в начало укороченное название всех фигур 
                 WriteLine(
-                                "\t\tМеню\n" + 
-                    "1\t| Создание новой фигуры\t\t |\n" + 
-                    "2\t| Просмотр текущих фигур\t |\n" + 
-                    "3\t| Обновление данных списка фигур |\n" + 
+                                "\t\tМеню\n" +
+                    "1\t| Создание новой фигуры\t\t |\n" +
+                    "2\t| Просмотр текущих фигур\t |\n" +
+                    "3\t| Обновление данных списка фигур |\n" +
                     "4\t| Выход из цикла\t\t |\n");
                 Write("Выбрать из этого списка: ");
                 string choise = ReadLine();
@@ -43,8 +43,7 @@ namespace Test_task_by_Khromakov_Maxim
                         {
                             Clear();
                             WriteLine("1) Треугольник\n" + "2) Квадрат\n" + "3) Прямоугольник\n" + "4) Круг\n" + "5) Назад");
-                            Log();
-                            Write("Выберите тип фигуры какой вы бы хотели создать: ");
+                            Enter("тип фигуры какой вы бы хотели создать", true);
                             string createChoise = ReadLine();
                             switch (createChoise)
                             {
@@ -53,21 +52,16 @@ namespace Test_task_by_Khromakov_Maxim
                                     {
                                         Clear();
                                         Log("Succses");
-                                        Write("Вы выбрали треугольник.\n\n");
+                                        Write("Вы выбрали треугольник.\n");
                                         Thread.Sleep(400);
                                         double a, b, c;
                                         try
                                         {
-                                            Log();
-                                            Write("Введите размер левой стороны: ");
+                                            Enter("размер левой стороны");
                                             a = Convert.ToDouble(ReadLine());
-                                            WriteLine();
-                                            Log();
-                                            Write("Введите размер правой стороны: ");
+                                            Enter("размер правой стороны");
                                             b = Convert.ToDouble(ReadLine());
-                                            WriteLine();
-                                            Log();
-                                            Write("Введите размер нижней стороны: ");
+                                            Enter("размер основания");
                                             c = Convert.ToDouble(ReadLine());
                                         }
                                         catch (Exception) // Если введена строка, то выдаёт ошибку и возвращает заново переписывать
@@ -99,13 +93,12 @@ namespace Test_task_by_Khromakov_Maxim
                                     {
                                         Clear();
                                         Log("Succses");
-                                        Write("Вы выбрали квадрат.\n\n");
+                                        Write("Вы выбрали квадрат.\n");
                                         Thread.Sleep(400);
                                         double size;
                                         try
                                         {
-                                            Log();
-                                            Write("Введите сторону для всех 4: ");
+                                            Enter("размер всех 4-х сторон");
                                             size = Convert.ToDouble(ReadLine());
                                         }
                                         catch (Exception)
@@ -136,18 +129,15 @@ namespace Test_task_by_Khromakov_Maxim
                                     {
                                         Clear();
                                         Log("Succses");
-                                        Write("Вы выбрали прямоугольник.\n\n");
+                                        Write("Вы выбрали прямоугольник.\n");
                                         Thread.Sleep(400);
-                                        double vert, goriz;
+                                        double vert, horiz;
                                         try
                                         {
-                                            Log();
-                                            Write("Введите размер по вертикали: ");
+                                            Enter("размер по вертикали");
                                             vert = Convert.ToDouble(ReadLine());
-                                            WriteLine();
-                                            Log();
-                                            Write("Введите размер по горизонтали: ");
-                                            goriz = Convert.ToDouble(ReadLine());
+                                            Enter("размер по горизонтали");
+                                            horiz = Convert.ToDouble(ReadLine());
                                         }
                                         catch (Exception)
                                         {
@@ -155,12 +145,12 @@ namespace Test_task_by_Khromakov_Maxim
                                             continue;
                                             throw;
                                         }
-                                        if (vert <= 0 || goriz <= 0)
+                                        if (vert <= 0 || horiz <= 0)
                                         {
                                             LessThanOrEqualToZero();
                                             continue;
                                         }
-                                        else if (vert == goriz) // Если равны стороны, то это не прямоугольник, а квадрат
+                                        else if (vert == horiz) // Если равны стороны, то это не прямоугольник, а квадрат
                                         {
                                             WriteLine();
                                             Log("Warning");
@@ -185,11 +175,11 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         else // Если всё нормально, то пользователь получает прямоугольник
                                         {
-                                            double[] sizeRectangle = { vert, goriz };
+                                            double[] sizeRectangle = { vert, horiz };
                                             string[] shortNameSide = { namedAllSize[3], namedAllSize[4] };
                                             int ID = new WriteInformation()
                                                 .PutEnd("figures.txt", "Rectangle", sizeRectangle, shortNameSide);
-                                            new Rectangle(vert, goriz)
+                                            new Rectangle(vert, horiz)
                                                 .PrintFigure(ID);
                                             ClickToContinue(isCreateFigure, "Succses");
                                         }
@@ -200,13 +190,12 @@ namespace Test_task_by_Khromakov_Maxim
                                     {
                                         Clear();
                                         Log("Succses");
-                                        Write("Вы выбрали круг.\n\n");
+                                        Write("Вы выбрали круг.\n");
                                         Thread.Sleep(400);
                                         double radius;
                                         try
                                         {
-                                            Log();
-                                            Write("Введите радиус круга: ");
+                                            Enter("радиус круга");
                                             radius = Convert.ToDouble(ReadLine());
                                         }
                                         catch (Exception)
@@ -246,15 +235,13 @@ namespace Test_task_by_Khromakov_Maxim
                         {
                             Clear();
                             WriteLine("1) По ID\n" + "2) По типам(работает с багами)\n" + "3) Все\n" + "4) Назад");
-                            Log();
-                            Write("Выберите как вы хотите выбрать: ");
+                            Enter("как вы бы хотели вывести фигуры: ", true);
                             string choiseType = ReadLine();
                             switch (choiseType)
                             {
                                 case "1": // ..ID
                                     Clear();
-                                    Log();
-                                    Write("Введите ID: ");
+                                    Enter("ID");
                                     int id;
                                     try
                                     {
@@ -352,7 +339,7 @@ namespace Test_task_by_Khromakov_Maxim
                                     ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверный тип! ");
                                     break;
                             }
-                            
+
                         } while (isChangeFigure);
                         break;
                     case "4": // Выход из меню
@@ -409,7 +396,8 @@ namespace Test_task_by_Khromakov_Maxim
         static void Log(string type = "")
         {
             // Логи информации с временем и датой их отправки
-            var getForegroundColor = type switch {
+            var getForegroundColor = type switch
+            {
                 "Error" => ForegroundColor = ConsoleColor.Red,
                 "Warning" => ForegroundColor = ConsoleColor.Yellow,
                 "Succses" => ForegroundColor = ConsoleColor.Green,

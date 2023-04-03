@@ -4,41 +4,41 @@ using System.Collections.Generic;
 
 namespace Test_task_by_Khromakov_Maxim 
 {
-    // Работа с текстовым файлом (да, получилось не мало)
+    // Р Р°Р±РѕС‚Р° СЃ С‚РµРєСЃС‚РѕРІС‹Рј С„Р°Р№Р»РѕРј (РґР°, РїРѕР»СѓС‡РёР»РѕСЃСЊ РЅРµ РјР°Р»Рѕ)
     class WriteInformation
     {
-        // Создание новой фигуры в конец файла
+        // РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ С„РёРіСѓСЂС‹ РІ РєРѕРЅРµС† С„Р°Р№Р»Р°
         public int PutEnd(string path, string typeFigure, double[] sizeSides, string[] nameSides)
         {
             int id = 0;
-            using (StreamReader rd = new StreamReader(path)) // Чтение файла
+            using (StreamReader rd = new StreamReader(path)) // Р§С‚РµРЅРёРµ С„Р°Р№Р»Р°
             {
                 string line;
                 while ((line = rd.ReadLine()) != null)
                 {
-                    string[] words = line.Split(": "); // Разбиение строки на ключ и значение
+                    string[] words = line.Split(": "); // Р Р°Р·Р±РёРµРЅРёРµ СЃС‚СЂРѕРєРё РЅР° РєР»СЋС‡ Рё Р·РЅР°С‡РµРЅРёРµ
                     if (words[0] == "ID")
                     {
                         int newId = int.Parse(words[1]);
-                        id = newId; // Запоминает все ID, пока не дойдёт до последнего
+                        id = newId; // Р—Р°РїРѕРјРёРЅР°РµС‚ РІСЃРµ ID, РїРѕРєР° РЅРµ РґРѕР№РґС‘С‚ РґРѕ РїРѕСЃР»РµРґРЅРµРіРѕ
                     }
                 }
             }
-            using (StreamWriter wr = new StreamWriter(path, true)) // Запись в файл
+            using (StreamWriter wr = new StreamWriter(path, true)) // Р—Р°РїРёСЃСЊ РІ С„Р°Р№Р»
             {
-                id++; // Инкрименция ID
+                id++; // РРЅРєСЂРёРјРµРЅС†РёСЏ ID
                 wr.WriteLine("==========");
                 wr.WriteLine($"ID: {id}");
                 wr.WriteLine($"Type: {typeFigure}");
                 for (int i = 0; i < sizeSides.Length; i++)
                 {
-                    wr.WriteLine($"{nameSides[i]}: {sizeSides[i]}"); // Записывает в цикле значение сторон фигуры
+                    wr.WriteLine($"{nameSides[i]}: {sizeSides[i]}"); // Р—Р°РїРёСЃС‹РІР°РµС‚ РІ С†РёРєР»Рµ Р·РЅР°С‡РµРЅРёРµ СЃС‚РѕСЂРѕРЅ С„РёРіСѓСЂС‹
                 }
                 wr.WriteLine("==========");
             }
-            return id; //Возвращает ID, чтобы потом можно было сразу распечатать
+            return id; //Р’РѕР·РІСЂР°С‰Р°РµС‚ ID, С‡С‚РѕР±С‹ РїРѕС‚РѕРј РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃСЂР°Р·Сѓ СЂР°СЃРїРµС‡Р°С‚Р°С‚СЊ
         }
-        // Вывод из файла информации
+        // Р’С‹РІРѕРґ РёР· С„Р°Р№Р»Р° РёРЅС„РѕСЂРјР°С†РёРё
         public void Print(string path, string by, string IDorType)
         {
             List<string> data = new List<string>();
@@ -47,7 +47,7 @@ namespace Test_task_by_Khromakov_Maxim
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    data.Add(line); // Добавление из файла в Лист всю информацию
+                    data.Add(line); // Р”РѕР±Р°РІР»РµРЅРёРµ РёР· С„Р°Р№Р»Р° РІ Р›РёСЃС‚ РІСЃСЋ РёРЅС„РѕСЂРјР°С†РёСЋ
                 }
             }
 
@@ -56,10 +56,10 @@ namespace Test_task_by_Khromakov_Maxim
                 string line;
                 while ((line = rd.ReadLine()) != null)
                 {
-                    string[] words = line.Split(": "); // Разбиение на ключи и значение
+                    string[] words = line.Split(": "); // Р Р°Р·Р±РёРµРЅРёРµ РЅР° РєР»СЋС‡Рё Рё Р·РЅР°С‡РµРЅРёРµ
                     switch (by)
                     {
-                        case "By ID": // Ищем по ID
+                        case "By ID": // РС‰РµРј РїРѕ ID
                             if (words[0] == "ID")
                             {
                                 int ID = int.Parse(words[1]);
@@ -71,18 +71,18 @@ namespace Test_task_by_Khromakov_Maxim
                                     {
                                         string[] splWords = data[i].Split(": ");
                                         if (data[i] == "==========") continue;
-                                        if (IDorType == splWords[1] && splWords[0] == "ID") // Находим тот ID который мы искали
+                                        if (IDorType == splWords[1] && splWords[0] == "ID") // РќР°С…РѕРґРёРј С‚РѕС‚ ID РєРѕС‚РѕСЂС‹Р№ РјС‹ РёСЃРєР°Р»Рё
                                         {
-                                            indID = i; // В случае нахождения, записываем и завершаем функцию
+                                            indID = i; // Р’ СЃР»СѓС‡Р°Рµ РЅР°С…РѕР¶РґРµРЅРёСЏ, Р·Р°РїРёСЃС‹РІР°РµРј Рё Р·Р°РІРµСЂС€Р°РµРј С„СѓРЅРєС†РёСЋ
                                             break;
                                         }
                                     }
-                                    string[] typeName = data[indID + 1].Split(": "); // Следующей строкой ищем тип фигуры с ID фигуры
+                                    string[] typeName = data[indID + 1].Split(": "); // РЎР»РµРґСѓСЋС‰РµР№ СЃС‚СЂРѕРєРѕР№ РёС‰РµРј С‚РёРї С„РёРіСѓСЂС‹ СЃ ID С„РёРіСѓСЂС‹
                                     List<double> infSide = new List<double>();
                                     for (int ind = indID + 2; data[ind] != "=========="; ind++)
                                     {
                                         string[] sides = data[ind].Split(": ");
-                                        infSide.Add(double.Parse(sides[1])); // Добавляем в лист информацию
+                                        infSide.Add(double.Parse(sides[1])); // Р”РѕР±Р°РІР»СЏРµРј РІ Р»РёСЃС‚ РёРЅС„РѕСЂРјР°С†РёСЋ
                                         if (data[ind + 1] == "==========")
                                         {
                                             //var result = typeName[1] switch
@@ -91,7 +91,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             //    "Square" => new Square(infSide[0]).PrintFigure(searchByID),
                                             //    "Rectangle" => new Rectangle(infSide[0], infSide[1]).PrintFigure(searchByID),
                                             //    "Round" => new Round(infSide[0]).PrintFigure(searchByID),
-                                            //    _ => throw new System.Exception("Да")
+                                            //    _ => throw new System.Exception("Р”Р°")
                                             //};
                                             switch (typeName[1])
                                             {
@@ -119,7 +119,7 @@ namespace Test_task_by_Khromakov_Maxim
                                 }
                             }
                             break;
-                        case "Type": // Поиск по типу фигуры
+                        case "Type": // РџРѕРёСЃРє РїРѕ С‚РёРїСѓ С„РёРіСѓСЂС‹
                             if (words[0] == "Type")
                             {
                                 if (words[1] == IDorType)
@@ -135,44 +135,41 @@ namespace Test_task_by_Khromakov_Maxim
                                         {
                                             line = rd.ReadLine();
                                             keyItem = line.Split(": ");
+                                            List<double> sides = new List<double>();
+                                            for (int i = 0; line != "=========="; i++)
+                                            {
+                                                if (i == 0)
+                                                {
+                                                    sides.Add(double.Parse(keyItem[1]));
+                                                    continue;
+                                                }
+                                                line = rd.ReadLine();
+                                                keyItem = line.Split(": ");
+                                                sides.Add(double.Parse(keyItem[1]));
+                                            }
                                             switch (IDorType)
                                             {
                                                 case "Square":
-                                                    double size = double.Parse(keyItem[1]);
-                                                    new Square(size)
+                                                    new Square(sides[0])
                                                         .PrintFigure(id);
-                                                    countFigure++;
                                                     break;
                                                 case "Rectangle":
-                                                    double sizeHz = double.Parse(keyItem[1]);
-                                                    line = rd.ReadLine();
-                                                    keyItem = line.Split(": ");
-                                                    double sizeVc = double.Parse(keyItem[1]);
-                                                    new Rectangle(sizeHz, sizeVc)
+                                                    new Rectangle(sides[0], sides[1])
                                                         .PrintFigure(id);
-                                                    countFigure++;
                                                     break;
                                                 case "Trinagle":
-                                                    double sizeR = double.Parse(keyItem[1]);
-                                                    line = rd.ReadLine();
-                                                    keyItem = line.Split(": ");
-                                                    double sizeL = double.Parse(keyItem[1]);
-                                                    line = rd.ReadLine();
-                                                    keyItem = line.Split(": ");
-                                                    double sizeB = double.Parse(keyItem[1]);
-                                                    new Trinagle(sizeR, sizeL, sizeB)
+                                                    new Trinagle(sides[0], sides[1], sides[2])
                                                         .PrintFigure(id);
-                                                    countFigure++;
                                                     break;
                                                 case "Round":
-                                                    double radius = double.Parse(keyItem[1]);
-                                                    new Round(radius)
+                                                    new Round(sides[0])
                                                         .PrintFigure(id);
-                                                    countFigure++;
                                                     break;
                                                 default:
+                                                    countFigure--;
                                                     break;
                                             }
+                                            countFigure++;
                                         }
                                     }
                                     WriteLine($"Count {IDorType}'s: {countFigure}");
@@ -180,14 +177,14 @@ namespace Test_task_by_Khromakov_Maxim
                             }
                             break;
                         default:
-                            WriteLine("Введён неверный тип!");
+                            WriteLine("Р’РІРµРґС‘РЅ РЅРµРІРµСЂРЅС‹Р№ С‚РёРї!");
                             ReadKey();
                             break;
                     }
                 }
             }
         }
-        public void Print(string path, string by) // Перегрузка метода вывода, который выводит всё из файла
+        public void Print(string path, string by) // РџРµСЂРµРіСЂСѓР·РєР° РјРµС‚РѕРґР° РІС‹РІРѕРґР°, РєРѕС‚РѕСЂС‹Р№ РІС‹РІРѕРґРёС‚ РІСЃС‘ РёР· С„Р°Р№Р»Р°
         {
             using (StreamReader rd = new StreamReader(path))
             {
@@ -196,59 +193,49 @@ namespace Test_task_by_Khromakov_Maxim
                 {
                     switch (by)
                     {
-                        case "All": // Вывод всего
+                        case "All": // Р’С‹РІРѕРґ РІСЃРµРіРѕ
                             int Id = 0;
                             string type = "";
                             int[] countFigures = new int[4];
                             while ((line = rd.ReadLine()) != null)
                             {
                                 string[] keyItem = line.Split(": ");
-                                if (line == "==========") continue; // Чтобы не было вызова ошибки, ставим такую затычку
-                                else if (keyItem[0] == "ID") Id = int.Parse(keyItem[1]); // Записываем каждый раз ID
-                                else if (keyItem[0] == "Type") type = keyItem[1]; // Так же и тип фигуры
+                                if (line == "==========") continue; // Р§С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ РІС‹Р·РѕРІР° РѕС€РёР±РєРё, СЃС‚Р°РІРёРј С‚Р°РєСѓСЋ Р·Р°С‚С‹С‡РєСѓ
+                                else if (keyItem[0] == "ID") Id = int.Parse(keyItem[1]); // Р—Р°РїРёСЃС‹РІР°РµРј РєР°Р¶РґС‹Р№ СЂР°Р· ID
+                                else if (keyItem[0] == "Type") type = keyItem[1]; // РўР°Рє Р¶Рµ Рё С‚РёРї С„РёРіСѓСЂС‹
                                 else if (line != "==========")
                                 {
-                                    //for (int i = 0; line != "=========="; i++)
-                                    //{
-                                    //    double[] sides = 
-                                    //    if(i == 0)
-                                    //    {
-
-                                    //        continue;
-                                    //    }
-                                    //}
+                                    List<double> sides = new List<double>();
+                                    for (int i = 0; line != "=========="; i++)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            sides.Add(double.Parse(keyItem[1]));
+                                            continue;
+                                        }
+                                        line = rd.ReadLine();
+                                        keyItem = line.Split(": ");
+                                        sides.Add(double.Parse(keyItem[1]));
+                                    }
                                     switch (type)
                                     {
                                         case "Square":
-                                            double size = double.Parse(keyItem[1]);
-                                            new Square(size)
+                                            new Square(sides[0])
                                                 .PrintFigure(Id);
                                             countFigures[0]++;
                                             break;
                                         case "Rectangle":
-                                            double sizeHz = double.Parse(keyItem[1]);
-                                            line = rd.ReadLine(); // Переход на следующую строку
-                                            keyItem = line.Split(": ");
-                                            double sizeVc = double.Parse(keyItem[1]);
-                                            new Rectangle(sizeHz, sizeVc)
+                                            new Rectangle(sides[0], sides[1])
                                                 .PrintFigure(Id);
                                             countFigures[1]++;
                                             break;
                                         case "Trinagle":
-                                            double sizeR = double.Parse(keyItem[1]);
-                                            line = rd.ReadLine();
-                                            keyItem = line.Split(": ");
-                                            double sizeL = double.Parse(keyItem[1]);
-                                            line = rd.ReadLine();
-                                            keyItem = line.Split(": ");
-                                            double sizeB = double.Parse(keyItem[1]);
-                                            new Trinagle(sizeR, sizeL, sizeB)
+                                            new Trinagle(sides[0], sides[1], sides[2])
                                                 .PrintFigure(Id);
                                             countFigures[2]++;
                                             break;
                                         case "Round":
-                                            double radius = double.Parse(keyItem[1]);
-                                            new Round(radius)
+                                            new Round(sides[0])
                                                 .PrintFigure(Id);
                                             countFigures[3]++;
                                             break;
@@ -257,13 +244,13 @@ namespace Test_task_by_Khromakov_Maxim
                                     }
                                 }
                             }
-                            WriteLine($"Кол-во квадратов: {countFigures[0]};\n"
-                                    + $"Кол-во прямоугольников: {countFigures[1]};\n"
-                                    + $"Кол-во треугольников: {countFigures[2]};\n"
-                                    + $"Кол-во кругов: {countFigures[3]};");
+                            WriteLine($"РљРѕР»-РІРѕ РєРІР°РґСЂР°С‚РѕРІ: {countFigures[0]};\n"
+                                    + $"РљРѕР»-РІРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ: {countFigures[1]};\n"
+                                    + $"РљРѕР»-РІРѕ С‚СЂРµСѓРіРѕР»СЊРЅРёРєРѕРІ: {countFigures[2]};\n"
+                                    + $"РљРѕР»-РІРѕ РєСЂСѓРіРѕРІ: {countFigures[3]};");
                             break;
                         default:
-                            WriteLine("Введён неверный тип!");
+                            WriteLine("Р’РІРµРґС‘РЅ РЅРµРІРµСЂРЅС‹Р№ С‚РёРї!");
                             ReadKey();
                             break;
                     }
