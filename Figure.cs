@@ -1,14 +1,14 @@
 namespace Test_task_by_Khromakov_Maxim
 {
-    /// <summary> »нтерфейс фигуры </summary>
+    /// <summary> Интерфейс фигуры </summary>
     interface IFigure
     {
-        /// <summary> ћетод, благодар¤ которому мы выводим фигуру в консоль </summary>
-        /// <param name="ID">»ндентификатор фигуры</param>
+        /// <summary> Метод, благодар¤ которому мы выводим фигуру в консоль </summary>
+        /// <param name="ID">Индентификатор фигуры</param>
         public void PrintFigure(int ID);
-        /// <summary> ћетод, благодар¤ которому мы получаем плошадь фигуры </summary>
+        /// <summary> Метод, благодаря которому мы получаем плошадь фигуры </summary>
         public double GetArea();
-        /// <summary> ћетод, благодар¤ которому мы получаем периметр фигуры </summary>
+        /// <summary> Метод, благодаря которому мы получаем периметр фигуры </summary>
         public double GetPerimeter();
     }
 }
