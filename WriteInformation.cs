@@ -2,12 +2,21 @@ using static System.Console;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Test_task_by_Khromakov_Maxim 
+namespace Test_task_by_Khromakov_Maxim
 {
-    // Работа с текстовым файлом (да, получилось не мало)
+    /// <summary>
+    /// Класс, который взаимодействует с файловой системой приложения (обновляя, добавляя и выводя в консоль)
+    /// </summary>
     class WriteInformation
     {
-        // Создание новой фигуры в конец файла
+        /// <summary>
+        /// Создание новой фигуры в конец файла
+        /// </summary>
+        /// <param name="path">Название файла с его форматом</param>
+        /// <param name="typeFigure">Тип фигуры</param>
+        /// <param name="sizeSides">Значение размеров длины каждой стороны фигуры в массиве</param>
+        /// <param name="nameSides">Сокращенное название каждой сторон фигур в массиве</param>
+        /// <returns>Возвращает новый индентификатор, чтобы можно было его сразу вывести в консоль после создания</returns>
         public int PutEnd(string path, string typeFigure, double[] sizeSides, string[] nameSides)
         {
             int id = 0;
@@ -36,10 +45,15 @@ namespace Test_task_by_Khromakov_Maxim
                 }
                 wr.WriteLine("==========");
             }
-            return id; //Возвращает ID, чтобы потом можно было сразу распечатать
+            return id;
         }
-        // Вывод из файла информации
-        public void Print(string path, string by, string IDorType)
+        /// <summary>
+        /// Вывод информации из файла в консоль
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="by">По какому типу будет вывод (По ID, Типам, Все)</param>
+        /// <param name="IDorType">Ввод в текстовом формате ID или название типа фигуры</param>
+        public void Print(string path, string by, string IDorType = "")
         {
             List<string> data = new List<string>();
             using (StreamReader sr = new StreamReader(path))
@@ -85,14 +99,6 @@ namespace Test_task_by_Khromakov_Maxim
                                         infSide.Add(double.Parse(sides[1])); // Добавляем в лист информацию
                                         if (data[ind + 1] == "==========")
                                         {
-                                            //var result = typeName[1] switch
-                                            //{
-                                            //    "Trinagle" => new Trinagle(infSide[0], infSide[1], infSide[2]).PrintFigure(searchByID),
-                                            //    "Square" => new Square(infSide[0]).PrintFigure(searchByID),
-                                            //    "Rectangle" => new Rectangle(infSide[0], infSide[1]).PrintFigure(searchByID),
-                                            //    "Round" => new Round(infSide[0]).PrintFigure(searchByID),
-                                            //    _ => throw new System.Exception("Да")
-                                            //};
                                             switch (typeName[1])
                                             {
                                                 case "Trinagle":
@@ -177,23 +183,6 @@ namespace Test_task_by_Khromakov_Maxim
                                 }
                             }
                             break;
-                        default:
-                            WriteLine("Введён неверный тип!");
-                            ReadKey();
-                            break;
-                    }
-                }
-            }
-        }
-        public void Print(string path, string by) // Перегрузка метода вывода, который выводит всё из файла
-        {
-            using (StreamReader rd = new StreamReader(path))
-            {
-                string line;
-                while ((line = rd.ReadLine()) != null)
-                {
-                    switch (by)
-                    {
                         case "All": // Вывод всего
                             int Id = 0;
                             string type = "";
@@ -259,6 +248,14 @@ namespace Test_task_by_Khromakov_Maxim
                 }
             }
         }
+        /// <summary>
+        /// Обновление по ID информации о фигуре в файле
+        /// </summary>
+        /// <param name="path">Название файла</param>
+        /// <param name="ID">Инднентификатор фигуры</param>
+        /// <param name="type">Тип фигуры</param>
+        /// <param name="newSizeSides">Новые размеры сторон фигуры</param>
+        /// <param name="nameKey">Укороченное название сторон фигуры</param>
         public void Update(string path, int ID, string type, List<double> newSizeSides, string[] nameKey)
         {
             List<string> data = new List<string>();

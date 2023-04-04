@@ -5,6 +5,9 @@ using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
+    /// <summary>
+    /// Основной класс Program, который запускает приложение
+    /// </summary>
     class Program
     {
         static void Main()
@@ -37,7 +40,7 @@ namespace Test_task_by_Khromakov_Maxim
                                 case "Trinagle":
                                 case "Round":
                                 case "Rectangle":
-                                case "Square": // Создание Треугольника
+                                case "Square": // Создание фигур
                                     do
                                     {
                                         Clear();
@@ -66,8 +69,9 @@ namespace Test_task_by_Khromakov_Maxim
                                                 break;
                                             }
                                         }
-                                        if(isNotZero)
+                                        if (isNotZero)
                                         {
+                                            if (createChoise == "Rectangle" && sizeSide[0] == sizeSide[1]) createChoise = "Square";
                                             int ID = new WriteInformation()
                                                 .PutEnd("figures.txt", createChoise, sizeSide.ToArray(), shortNameSide);
                                             switch (createChoise)
@@ -76,8 +80,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                     new Trinagle(sizeSide[0], sizeSide[1], sizeSide[2]).PrintFigure(ID);
                                                     break;
                                                 case "Rectangle":
-                                                    if (sizeSide[0] == sizeSide[1]) new Square(sizeSide[0]).PrintFigure(ID);
-                                                    else new Rectangle(sizeSide[0], sizeSide[1]).PrintFigure(ID);
+                                                    new Rectangle(sizeSide[0], sizeSide[1]).PrintFigure(ID);
                                                     break;
                                                 case "Square":
                                                     new Square(sizeSide[0]).PrintFigure(ID);
@@ -160,7 +163,6 @@ namespace Test_task_by_Khromakov_Maxim
                             Clear();
                             Enter("тип фигуры на который вы бы хотели поменять(по англ)", true);
                             string typeName = ReadLine();
-
                             string[] nameKeyFigure = EnterFigure(typeName, sizeSides);
                             wii.Update("figures.txt", id, typeName, sizeSides, nameKeyFigure);
                             wii.Print("figures.txt", "By ID", $"{id}");
@@ -197,6 +199,7 @@ namespace Test_task_by_Khromakov_Maxim
                     break;
             }
         }
+        /// <summary> Условная загрузка приложения </summary>
         static void Loading()
         {
             Log();
@@ -214,6 +217,12 @@ namespace Test_task_by_Khromakov_Maxim
             Write("Loading completed!");
             Thread.Sleep(1500);
         }
+        /// <summary>
+        /// Ввод информации сторон фигур
+        /// </summary>
+        /// <param name="typeFigure">Тип фигуры</param>
+        /// <param name="sizeSides">Стороны фигур</param>
+        /// <returns>Возвращает укороченное название сторон в массиве для того, чтобы записать в файл стороны фигуры</returns>
         static string[] EnterFigure(string typeFigure, List<double> sizeSides)
         {
             List<string> shortNameSide = new List<string>();
@@ -238,10 +247,14 @@ namespace Test_task_by_Khromakov_Maxim
                 case "Rectangle":
                     Enter("размер по горизонтали");
                     sizeSides.Add(double.Parse(ReadLine()));
-                    shortNameSide.Add("HZ");
                     Enter("размер по вертикале");
-                    shortNameSide.Add("VC");
                     sizeSides.Add(double.Parse(ReadLine()));
+                    if (sizeSides[0] == sizeSides[1]) shortNameSide.Add("AS");
+                    else
+                    {
+                        shortNameSide.Add("HZ");
+                        shortNameSide.Add("VC");
+                    }
                     break;
                 case "Round":
                     Enter("окружность");
@@ -254,31 +267,46 @@ namespace Test_task_by_Khromakov_Maxim
             }
             return shortNameSide.ToArray();
         }
+        /// <summary>
+        /// Просьба ввода какой либо информации
+        /// </summary>
+        /// <param name="textEnter">Обязательный параметр, который описывает что нужно ввести</param>
+        /// <param name="isTheBeginning">Выбирает делать ли отступ на следующую строку, или же нет (false - да | true - нет) (параметр необязателен)</param>
         static void Enter(string textEnter, bool isTheBeginning = false)
         {
             if (!isTheBeginning) WriteLine();
             Log();
             Write($"Введите {textEnter}: ");
         }
+        /// <summary>
+        /// Нажмите чтобы продолжить - метод который объявляеться перед очищением консоли. (все параметры необязательные)
+        /// </summary>
+        /// <param name="isWork">Булевое значение, которое останавливает цикл в приложении</param>
+        /// <param name="typeLog">Тип лога - просто выводит тип лога</param>
+        /// <param name="anotherText">Дополнительная информация перед записем в консоль "Нажмите чтобы продолжить: "</param>
         static void ClickToContinue(bool isWork = false, string typeLog = "", string anotherText = "")
         {
             WriteLine();
             Log($"{typeLog}");
             Write($"{anotherText}Нажмите чтобы продолжить: ");
             ReadKey();
-            //return isWork;
         }
+        /// <summary>
+        /// Меньше или равно 0. Выводится когда одна из сторон фигур уходит в 0 и меньше
+        /// </summary>
         static void LessThanOrEqualToZero()
         {
-            // Если меньше или равняется 0 размер стороны фигуры
             WriteLine();
             Log("Error");
-            Write("Радиус не может быть равен или быть меньше 0!");
+            Write("Сторона фигуры не может быть равна или быть меньше 0!");
             Thread.Sleep(2000);
         }
+        /// <summary>
+        /// Логирование - когда была отправлена та или инная информация в консоль, с отчётом датой и временем вплоть до секунд
+        /// </summary>
+        /// <param name="type">Тип логов - необязательный параметр который окрашивает логирование в определённый цвет под разные типы: (стандартный - серый; Error - красный; Warning - желтый; Succses - зелёный)</param>
         static void Log(string type = "")
         {
-            // Логи информации с временем и датой их отправки
             var getForegroundColor = type switch
             {
                 "Error" => ForegroundColor = ConsoleColor.Red,
