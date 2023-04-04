@@ -3,46 +3,68 @@ using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
-    class Trinagle : Figure
+    /// <summary> Треугольник </summary>
+    class Trinagle : IFigure
     {
-        private double leftSide { get; set; } // ����� ������� ������������
-        private double rightSide { get; set; } // ������ ������� ������������
-        private double bottomSide { get; set; } // ��������� ������������
-        public Trinagle(double leftSide, double rightSide, double bottomSide)
+        private double LeftSide { get; set; }
+        private double RightSide { get; set; }
+        private double BaseSide { get; set; }
+
+        /// <summary>
+        /// Конструктор треугольника
+        /// </summary>
+        /// <param name="leftSide">Левая сторона треугольника</param>
+        /// <param name="rightSide">Правая сторона треугольника</param>
+        /// <param name="baseSide">Основание треугольника</param>
+        public Trinagle(double leftSide, double rightSide, double baseSide)
         {
-            this.leftSide = leftSide;
-            this.rightSide = rightSide;
-            this.bottomSide = bottomSide;
+            this.LeftSide = leftSide;
+            this.RightSide = rightSide;
+            this.BaseSide = baseSide;
         }
-        public override void GetFigure(int id)
+        /// <summary>
+        /// Вывод треугольника и его параметров сразу в консоль
+        /// </summary>
+        /// <param name="id">Индентификатор треугольника</param>
+        public void PrintFigure(int id)
         {
             WriteLine("===============================\n"
-                + $"ID ������: {id}\n"
-                + "������: �����������\n"
-                + "\t������� ������ ������\n"
-                + $"����� �������: {leftSide}\n"
-                + $"������ �������: {rightSide}\n"
-                + $"������ �������: {bottomSide}\n"
-                + $"��� ������������: {TypeTrinagle()}\n"
-                + $"��������: {Math.Round(Perimeter(), 2)}\n"
-                + $"�������: {Math.Round(Area(), 2)}\n"
+                + $"ID фигуры: {id}\n"
+                + "Фигура: Треугольник\n"
+                + "\tРазмеры каждых сторон\n"
+                + $"Левая сторона: {LeftSide}\n"
+                + $"Правая сторона: {RightSide}\n"
+                + $"Нижняя сторона: {BaseSide}\n"
+                + $"Тип треугольника: {GetTypeTrinagle()}\n"
+                + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
+                + $"Площадь: {Math.Round(GetArea(), 2)}\n"
                 + "===============================");
         }
-        // ��������� ������� ������������
-        public override double Area()
+
+        /// <summary>
+        /// Метод, благодаря которому мы получаем площадь треугольника
+        /// </summary>
+        /// <returns>Возвращает по формуле площадь треугольника (Корень из половины периметра * на (половина периметра - каждая из сторон) * ...)</returns>
+        public double GetArea()
         {
-            double halfPer = Perimeter() * 0.5;
-            double result = Math.Sqrt(halfPer * (halfPer - leftSide) * (halfPer - rightSide) * (halfPer - bottomSide));
-            return result;
+            double halfPer = GetPerimeter() * 0.5;
+            return Math.Sqrt(halfPer * (halfPer - LeftSide) * (halfPer - RightSide) * (halfPer - BaseSide));
         }
-        public override double Perimeter() => leftSide + rightSide + bottomSide; // ��������� ��������� ������������
-        public string TypeTrinagle()
-        {
-            string message;
-            if ((leftSide == rightSide) && (rightSide == bottomSide) && (leftSide == bottomSide)) message = "��������������"; // ���� ��� ������� �����, �� ����� ������
-            else if ((leftSide == rightSide) && (leftSide != bottomSide) && (rightSide != bottomSide)) message = "��������������"; // ���� ����� ������ ����� � ������ �����, �� ����� ������
-            else message = "��������������"; // ����� ������� ������
-            return message;
-        }
+
+        /// <summary>
+        /// Метод, благодаря которому мы получаем периметр треугольника
+        /// </summary>
+        /// <returns>Возвращает сумму всех сторон треугольника</returns>
+        public double GetPerimeter() => LeftSide + RightSide + BaseSide;
+        /// <summary>
+        /// Метод, благодаря которому мы получаем тип треугольника
+        /// </summary>
+        /// <returns>Возвращает тип треугольника (Равносторонний, Равнобедренный, Разносторонний)</returns>
+        public string GetTypeTrinagle()
+            => ((LeftSide == RightSide) && (RightSide == BaseSide) && (LeftSide == BaseSide))
+                ? "Равносторонний" // Если все стороны треугольника равны - выведет "Равносторонний"
+                : ((LeftSide == RightSide) && (LeftSide != BaseSide) && (RightSide != BaseSide))
+                ? "Равнобедренный" // Если у треугольника равна только левая и правая часть - выведете "Равнобедренный"
+                : "Разносторонний"; // Иначе - "Разносторонний"
     }
 }

@@ -1,292 +1,122 @@
 using System;
 using System.Threading;
+using System.Collections.Generic;
 using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
+    /// <summary>
+    /// Основной класс Program, который запускает приложение
+    /// </summary>
     class Program
     {
         static void Main()
         {
-            Log("");
-            Write("Loading");
-            bool isMainWork = true;
-            bool isCreateWork = true;
-            int i = 0;
-            while (i < 3)
-            {
-                Thread.Sleep(500);
-                Write(".");
-                i++;
-            }
-            WriteLine();
-            Thread.Sleep(300);
-            Log("Succses");
-            Write("Loading completed!");
-            Thread.Sleep(1500);
+            Loading();
+            bool isMainMenu = true;
             do
             {
                 Clear();
-                string[] namedAllSize = { "LS", "RS", "BS", "HZ", "VC", "AS", "R" }; // Запись в начало укороченное название всех фигур 
-                WriteLine("\t\tМеню\n" + "1\t| Создание новой фигуры\t\t |\n" + "2\t| Просмотр текущих фигур\t |\n" + "3\t| Обновление данных списка фигур |\n" + "4\t| Выход из цикла\t\t |\n");
+                bool isCreateFigure = true, isPrintFigure = true, isChangeFigure = true;
+                WriteLine(
+                                "\t\tМеню\n" +
+                    "1\t| Создание новой фигуры\t\t |\n" +
+                    "2\t| Просмотр текущих фигур\t |\n" +
+                    "3\t| Обновление данных списка фигур |\n" +
+                    "4\t| Выход из цикла\t\t |\n");
                 Write("Выбрать из этого списка: ");
                 string choise = ReadLine();
                 switch (choise)
                 {
                     case "1": // Создание фигуры
-                        isCreateWork = true;
                         do
                         {
                             Clear();
                             WriteLine("1) Треугольник\n" + "2) Квадрат\n" + "3) Прямоугольник\n" + "4) Круг\n" + "5) Назад");
-                            Log("");
-                            Write("Выберите тип фигуры какой вы бы хотели создать: ");
+                            Enter("тип фигуры какой вы бы хотели создать (на англ)", true);
                             string createChoise = ReadLine();
-                            isCreateWork = true;
                             switch (createChoise)
                             {
-                                case "1": // Создание Треугольника
+                                case "Trinagle":
+                                case "Round":
+                                case "Rectangle":
+                                case "Square": // Создание фигур
                                     do
                                     {
                                         Clear();
-                                        WriteLine();
                                         Log("Succses");
-                                        Write("Вы выбрали треугольник.\n\n");
+                                        Write($"Вы выбрали {createChoise}.\n");
                                         Thread.Sleep(400);
-                                        double a, b, c;
+                                        bool isNotZero = true;
+                                        List<double> sizeSide = new List<double>();
+                                        string[] shortNameSide;
                                         try
                                         {
-                                            Log("");
-                                            Write("Введите размер левой стороны: ");
-                                            a = Convert.ToDouble(ReadLine());
-                                            WriteLine();
-                                            Log("");
-                                            Write("Введите размер правой стороны: ");
-                                            b = Convert.ToDouble(ReadLine());
-                                            WriteLine();
-                                            Log("");
-                                            Write("Введите размер нижней стороны: ");
-                                            c = Convert.ToDouble(ReadLine());
+                                            shortNameSide = EnterFigure(createChoise, sizeSide);
                                         }
                                         catch (Exception) // Если введена строка, то выдаёт ошибку и возвращает заново переписывать
                                         {
-                                            NumberException();
+                                            ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                             continue;
                                             throw;
                                         }
-                                        if (a <= 0 || b <= 0 || c <= 0)
+                                        foreach (double item in sizeSide)
                                         {
-                                            WriteLine();
-                                            Log("Error");
-                                            Write("Размер сторон не может быть равен или быть меньше 0!");
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-                                        else
-                                        {
-                                            Trinagle trinagle = new Trinagle(a, b, c);
-                                            double[] sizeTrinagle = { a, b, c };
-                                            string[] shortNameSide = { namedAllSize[0], namedAllSize[1], namedAllSize[2] };
-                                            WriteInformation wi = new WriteInformation();
-                                            int ID = wi.PutEnd("figures.txt", "Trinagle", sizeTrinagle, shortNameSide);
-                                            trinagle.GetFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateWork = false;
-                                        }
-
-                                    } while (isCreateWork);
-                                    break;
-                                case "2": // Создание квадрата
-                                    do
-                                    {
-                                        Clear();
-                                        WriteLine();
-                                        Log("Succses");
-                                        Write("Вы выбрали квадрат.\n\n");
-                                        Thread.Sleep(400);
-                                        double size;
-                                        try
-                                        {
-                                            Log("");
-                                            Write("Введите сторону для всех 4: ");
-                                            size = Convert.ToDouble(ReadLine());
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            NumberException();
-                                            continue;
-                                            throw;
-                                        }
-                                        if (size <= 0)
-                                        {
-                                            WriteLine();
-                                            Log("Error");
-                                            Write("Размер сторон не может быть равен или быть меньше 0!");
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-                                        else
-                                        {
-                                            Square square = new Square(size);
-                                            double[] sizeSquare = { size };
-                                            string[] shortNameSide = { namedAllSize[5] };
-                                            WriteInformation wi = new WriteInformation();
-                                            int ID = wi.PutEnd("figures.txt", "Square", sizeSquare, shortNameSide);
-                                            square.GetFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateWork = false;
-                                        }
-                                    } while (isCreateWork);
-                                    break;
-                                case "3": // Создание Прямоугольника
-                                    do
-                                    {
-                                        Clear();
-                                        WriteLine();
-                                        Log("Succses");
-                                        Write("Вы выбрали прямоугольник.\n\n");
-                                        Thread.Sleep(400);
-                                        double vert, goriz;
-                                        try
-                                        {
-                                            Log("");
-                                            Write("Введите размер по вертикали: ");
-                                            vert = Convert.ToDouble(ReadLine());
-                                            WriteLine();
-                                            Log("");
-                                            Write("Введите размер по горизонтали: ");
-                                            goriz = Convert.ToDouble(ReadLine());
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            NumberException();
-                                            continue;
-                                            throw;
-                                        }
-                                        if (vert <= 0 || goriz <= 0)
-                                        {
-                                            WriteLine();
-                                            Log("Error");
-                                            Write("Размер сторон не может быть равен или быть меньше 0!");
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-                                        else if (vert == goriz) // Если равны стороны, то это не прямоугольник, а квадрат
-                                        {
-                                            WriteLine();
-                                            Log("Warning");
-                                            Write("Размер по горизонтали и вертикале равны. Вы бы хотели его преобразовать в квадрат?(Да/Нет): ");
-                                            string isSquare = ReadLine();
-                                            switch (isSquare) // Выбор пользователя "хочет ли он квадрат - или же прямоугольник"
+                                            if (item <= 0)
                                             {
-                                                case "Да":
-                                                    Square square = new Square(vert);
-                                                    double[] sizeSquare = { vert };
-                                                    string[] shortNameSide = { namedAllSize[5] };
-                                                    WriteInformation wi = new WriteInformation();
-                                                    int ID = wi.PutEnd("figures.txt", "Square", sizeSquare, shortNameSide);
-                                                    square.GetFigure(ID);
-                                                    Log("Succses");
-                                                    Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                                    ReadKey();
-                                                    isCreateWork = false;
+                                                LessThanOrEqualToZero();
+                                                isNotZero = false;
+                                                break;
+                                            }
+                                        }
+                                        if (isNotZero)
+                                        {
+                                            if (createChoise == "Rectangle" && sizeSide[0] == sizeSide[1]) createChoise = "Square";
+                                            int ID = new WriteInformation()
+                                                .PutEnd("figures.txt", createChoise, sizeSide.ToArray(), shortNameSide);
+                                            switch (createChoise)
+                                            {
+                                                case "Trinagle":
+                                                    new Trinagle(sizeSide[0], sizeSide[1], sizeSide[2]).PrintFigure(ID);
                                                     break;
-                                                case "Нет":
+                                                case "Rectangle":
+                                                    new Rectangle(sizeSide[0], sizeSide[1]).PrintFigure(ID);
+                                                    break;
+                                                case "Square":
+                                                    new Square(sizeSide[0]).PrintFigure(ID);
+                                                    break;
+                                                case "Round":
+                                                    new Round(sizeSide[0]).PrintFigure(ID);
                                                     break;
                                                 default:
                                                     break;
                                             }
+                                            ClickToContinue(isCreateFigure = false, "Succses");
                                         }
-                                        else // Если всё нормально, то пользователь получает прямоугольник
-                                        {
-                                            Rectangle rectangle = new Rectangle(vert, goriz);
-                                            double[] sizeRectangle = { vert, goriz };
-                                            string[] shortNameSide = { namedAllSize[3], namedAllSize[4] };
-                                            WriteInformation wi = new WriteInformation();
-                                            int ID = wi.PutEnd("figures.txt", "Rectangle", sizeRectangle, shortNameSide);
-                                            rectangle.GetFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateWork = false;
-                                        }
-                                    } while (isCreateWork);
-                                    break;
-                                case "4": // Создание круга
-                                    do
-                                    {
-                                        Clear();
-                                        WriteLine();
-                                        Log("Succses");
-                                        Write("Вы выбрали круг.\n\n");
-                                        Thread.Sleep(400);
-                                        double radius;
-                                        try
-                                        {
-                                            Log("");
-                                            Write("Введите радиус круга: ");
-                                            radius = Convert.ToDouble(ReadLine());
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            NumberException();
-                                            continue;
-                                            throw;
-                                        }
-                                        if (radius <= 0)
-                                        {
-                                            WriteLine();
-                                            Log("Succses");
-                                            Write("Радиус не может быть равен или быть меньше 0!");
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-                                        else
-                                        {
-                                            Round round = new Round(radius);
-                                            double[] sizeRadius = { radius };
-                                            string[] shortNameSide = { namedAllSize[6] };
-                                            WriteInformation wi = new WriteInformation();
-                                            int ID = wi.PutEnd("figures.txt", "Round", sizeRadius, shortNameSide);
-                                            round.GetFigure(ID);
-                                            Log("Succses");
-                                            Write("Фигура создана! Нажмите чтобы продолжить: ");
-                                            ReadKey();
-                                            isCreateWork = false;
-                                        }
-                                    } while (isCreateWork);
+
+                                    } while (isCreateFigure);
                                     break;
                                 case "5": // Возвращение назад
-                                    isCreateWork = false;
+                                    isCreateFigure = false;
                                     break;
                                 default:
-                                    WriteLine();
-                                    Log("Error");
-                                    Write("Вы ввели неверное значение! Попробуйте снова.");
-                                    ReadKey();
+                                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверный тип фигуры! ");
                                     break;
                             }
-                        } while (isCreateWork);
+                        } while (isCreateFigure);
                         break;
                     case "2": // Вывод фигур по...
-                        isCreateWork = true;
                         do
                         {
                             Clear();
                             WriteLine("1) По ID\n" + "2) По типам(работает с багами)\n" + "3) Все\n" + "4) Назад");
-                            Log("");
-                            Write("Выберите как вы хотите выбрать: ");
+                            Enter("как вы бы хотели вывести фигуры: ", true);
                             string choiseType = ReadLine();
                             switch (choiseType)
                             {
                                 case "1": // ..ID
                                     Clear();
-                                    Log("");
-                                    Write("Введите ID: ");
+                                    Enter("ID");
                                     int id;
                                     try
                                     {
@@ -294,171 +124,65 @@ namespace Test_task_by_Khromakov_Maxim
                                     }
                                     catch (Exception)
                                     {
-                                        WriteLine();
-                                        Log("Error");
-                                        Write("Вы ввели НЕ цифру. Нажмите чтобы продолжить: ");
-                                        ReadKey();
+                                        ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
+                                        continue;
                                         throw;
                                     }
-                                    WriteInformation wi = new WriteInformation();
-                                    wi.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    new WriteInformation().Print("figures.txt", "By ID", $"{id}");
+                                    ClickToContinue(isPrintFigure = false, "Succses");
                                     break;
                                 case "2": // ..типам
                                     Clear();
-                                    Log("");
-                                    Write("Введите тип на английском (Round, Square, Rectangle, Trinagle): ");
+                                    Enter("тип на английском (Round, Square, Rectangle, Trinagle)", true);
                                     string type = ReadLine();
-                                    WriteInformation witype = new WriteInformation();
-                                    witype.Print("figures.txt", "Type", type);
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    new WriteInformation().Print("figures.txt", "Type", type);
+                                    ClickToContinue(isPrintFigure = false, "Succses");
                                     break;
                                 case "3": // Все
-                                    WriteInformation wii = new WriteInformation();
-                                    wii.Print("figures.txt", "All");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
+                                    new WriteInformation().Print("figures.txt", "All");
+                                    ClickToContinue(isPrintFigure = false, "Succses");
                                     break;
                                 case "4": // Назад
-                                    isCreateWork = false;
+                                    isPrintFigure = false;
                                     break;
                                 default:
-                                    WriteLine();
-                                    Log("Error");
-                                    Write("Вы ввели неверное значение! Нажмите чтобы продолжить. ");
-                                    ReadKey();
+                                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверное значение! ");
                                     break;
                             }
-                        } while (isCreateWork);
+                        } while (isPrintFigure);
                         break;
                     case "3": // Обновление какой то фигуры
-                        isCreateWork = true;
                         do
                         {
                             Clear();
                             WriteInformation wii = new WriteInformation();
                             wii.Print("figures.txt", "All"); // Предоставление пользователю список фигур, которые он может изменить
-                            WriteLine();
-                            Log("");
-                            Write("Введите ID фигуры которую вы бы хотели изменить: ");
+                            Enter("ID фигуры которую вы бы хотели изменить");
                             int id = int.Parse(ReadLine());
-                            WriteLine();
+                            List<double> sizeSides = new List<double>();
                             Clear();
-                            Log("");
-                            Write("Введите тип фигуры на который вы бы хотели поменять(по русски): ");
+                            Enter("тип фигуры на который вы бы хотели поменять(по англ)", true);
                             string typeName = ReadLine();
-                            switch (typeName)
-                            {
-                                case "Треугольник":
-                                    typeName = "Trinagle";
-                                    double[] sizesTrinagle = new double[3];
-                                    string[] nameKeyTrinagle = { namedAllSize[2], namedAllSize[1], namedAllSize[0] }; // Выводим всё в обратном порядке, как и с записью
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите левую сторону: ");
-                                    sizesTrinagle[2] = double.Parse(ReadLine());
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите правую сторону: ");
-                                    sizesTrinagle[1] = double.Parse(ReadLine());
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите нижнюю сторону: ");
-                                    sizesTrinagle[0] = double.Parse(ReadLine());
-                                    wii.Update("figures.txt", id, typeName, sizesTrinagle, nameKeyTrinagle);
-                                    wii.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    isCreateWork = false;
-                                    break;
-                                case "Квадрат":
-                                    typeName = "Square";
-                                    double[] sizesSquare = new double[1];
-                                    string[] nameKeySquare = { namedAllSize[5] };
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите все 4 стороны: ");
-                                    sizesSquare[0] = double.Parse(ReadLine());
-                                    wii.Update("figures.txt", id, typeName, sizesSquare, nameKeySquare);
-                                    wii.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    isCreateWork = false;
-                                    break;
-                                case "Прямоугольник":
-                                    typeName = "Rectangle";
-                                    double[] sizesRectangle = new double[2];
-                                    string[] nameKeyRectangle = { namedAllSize[4], namedAllSize[3] };
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите размер по горизонтали: ");
-                                    sizesRectangle[1] = double.Parse(ReadLine());
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите размер по вертикали: ");
-                                    sizesRectangle[0] = double.Parse(ReadLine());
-                                    wii.Update("figures.txt", id, typeName, sizesRectangle, nameKeyRectangle);
-                                    wii.Print("figures.txt", "By ID", $"{id}");
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    isCreateWork = false;
-                                    break;
-                                case "Круг":
-                                    typeName = "Round";
-                                    double[] sizesRound = new double[1];
-                                    string[] nameKeyRound = { namedAllSize[6] };
-                                    WriteLine();
-                                    Log("");
-                                    Write("Введите окружность: ");
-                                    sizesRound[0] = double.Parse(ReadLine());
-                                    wii.Update("figures.txt", id, typeName, sizesRound, nameKeyRound);
-                                    wii.Print("figures.txt", "By ID", $"{id}");
-                                    isCreateWork = false;
-                                    WriteLine();
-                                    Log("Succses");
-                                    Write("Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    break;
-                                default:
-                                    WriteLine();
-                                    Log("Error");
-                                    Write("Вы ввели неверный тип! Нажмите чтобы продолжить: ");
-                                    ReadKey();
-                                    break;
-                            }
-                            
-                        } while (isCreateWork);
+                            string[] nameKeyFigure = EnterFigure(typeName, sizeSides);
+                            wii.Update("figures.txt", id, typeName, sizeSides, nameKeyFigure);
+                            wii.Print("figures.txt", "By ID", $"{id}");
+                            ClickToContinue(isChangeFigure = false, "Succses");
+
+                        } while (isChangeFigure);
                         break;
                     case "4": // Выход из меню
                         Clear();
-                        isMainWork = false;
+                        isMainMenu = false;
                         break;
                     default:
-                        WriteLine();
-                        Log("Error");
-                        Write("Вы ввели неверное значение! Попробуйте снова.");
-                        ReadKey();
+                        ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверное значение! ");
                         break;
                 }
-            } while (isMainWork);
-            Log("");
+            } while (isMainMenu);
+            Log();
             WriteLine("Вы вышли из цикла.");
             Thread.Sleep(500);
-            Log("");
+            Log();
             Write("Хотите завершить программу(Close/or any symbol), или вернуться назад(Back)?: "); // Завершение работы, или начать сначало
             string closeOrComeBack = ReadLine();
             switch (closeOrComeBack)
@@ -475,23 +199,121 @@ namespace Test_task_by_Khromakov_Maxim
                     break;
             }
         }
-        static void NumberException()
+        /// <summary> Условная загрузка приложения </summary>
+        static void Loading()
         {
-            // Вывод однотипной ошибки в функцию т.к. она встречается довольно часто
-            WriteLine("\n");
-            Log("Error");
-            Write("Вы ввели НЕ числовое значение!, Попробуйте снова\n\n");
-            Log("Error");
-            Write("Нажмите для продолжения любую клавишу: ");
+            Log();
+            Write("Loading");
+            int i = 0;
+            while (i < 3)
+            {
+                Thread.Sleep(500);
+                Write(".");
+                i++;
+            }
+            WriteLine();
+            Thread.Sleep(300);
+            Log("Succses");
+            Write("Loading completed!");
+            Thread.Sleep(1500);
+        }
+        /// <summary>
+        /// Ввод информации сторон фигур
+        /// </summary>
+        /// <param name="typeFigure">Тип фигуры</param>
+        /// <param name="sizeSides">Стороны фигур</param>
+        /// <returns>Возвращает укороченное название сторон в массиве для того, чтобы записать в файл стороны фигуры</returns>
+        static string[] EnterFigure(string typeFigure, List<double> sizeSides)
+        {
+            List<string> shortNameSide = new List<string>();
+            switch (typeFigure)
+            {
+                case "Trinagle":
+                    Enter("левую сторону");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    shortNameSide.Add("LS");
+                    Enter("правую сторону");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    shortNameSide.Add("RS");
+                    Enter("основание");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    shortNameSide.Add("BS");
+                    break;
+                case "Square":
+                    Enter("размер всех 4-х сторон");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    shortNameSide.Add("AS");
+                    break;
+                case "Rectangle":
+                    Enter("размер по горизонтали");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    Enter("размер по вертикале");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    if (sizeSides[0] == sizeSides[1]) shortNameSide.Add("AS");
+                    else
+                    {
+                        shortNameSide.Add("HZ");
+                        shortNameSide.Add("VC");
+                    }
+                    break;
+                case "Round":
+                    Enter("окружность");
+                    sizeSides.Add(double.Parse(ReadLine()));
+                    shortNameSide.Add("R");
+                    break;
+                default:
+                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели не существующую фигуру! ");
+                    break;
+            }
+            return shortNameSide.ToArray();
+        }
+        /// <summary>
+        /// Просьба ввода какой либо информации
+        /// </summary>
+        /// <param name="textEnter">Обязательный параметр, который описывает что нужно ввести</param>
+        /// <param name="isTheBeginning">Выбирает делать ли отступ на следующую строку, или же нет (false - да | true - нет) (параметр необязателен)</param>
+        static void Enter(string textEnter, bool isTheBeginning = false)
+        {
+            if (!isTheBeginning) WriteLine();
+            Log();
+            Write($"Введите {textEnter}: ");
+        }
+        /// <summary>
+        /// Нажмите чтобы продолжить - метод который объявляеться перед очищением консоли. (все параметры необязательные)
+        /// </summary>
+        /// <param name="isWork">Булевое значение, которое останавливает цикл в приложении</param>
+        /// <param name="typeLog">Тип лога - просто выводит тип лога</param>
+        /// <param name="anotherText">Дополнительная информация перед записем в консоль "Нажмите чтобы продолжить: "</param>
+        static void ClickToContinue(bool isWork = false, string typeLog = "", string anotherText = "")
+        {
+            WriteLine();
+            Log($"{typeLog}");
+            Write($"{anotherText}Нажмите чтобы продолжить: ");
             ReadKey();
         }
-        static void Log(string type)
+        /// <summary>
+        /// Меньше или равно 0. Выводится когда одна из сторон фигур уходит в 0 и меньше
+        /// </summary>
+        static void LessThanOrEqualToZero()
         {
-            // Логи информации с временем и датой их отправки
-            if (type == "Error") ForegroundColor = ConsoleColor.Red;
-            else if (type == "Warning") ForegroundColor = ConsoleColor.Yellow;
-            else if (type == "Succses") ForegroundColor = ConsoleColor.Green;
-            else ForegroundColor = ConsoleColor.DarkGray;
+            WriteLine();
+            Log("Error");
+            Write("Сторона фигуры не может быть равна или быть меньше 0!");
+            Thread.Sleep(2000);
+        }
+        /// <summary>
+        /// Логирование - когда была отправлена та или инная информация в консоль, с отчётом датой и временем вплоть до секунд
+        /// </summary>
+        /// <param name="type">Тип логов - необязательный параметр который окрашивает логирование в определённый цвет под разные типы: (стандартный - серый; Error - красный; Warning - желтый; Succses - зелёный)</param>
+        static void Log(string type = "")
+        {
+            var getForegroundColor = type switch
+            {
+                "Error" => ForegroundColor = ConsoleColor.Red,
+                "Warning" => ForegroundColor = ConsoleColor.Yellow,
+                "Succses" => ForegroundColor = ConsoleColor.Green,
+                _ => ForegroundColor = ConsoleColor.DarkGray
+            };
             Write($"[{DateTime.Now}]");
             ForegroundColor = ConsoleColor.White;
             Write(": ");
