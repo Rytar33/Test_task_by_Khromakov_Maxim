@@ -145,6 +145,7 @@ namespace Test_task_by_Khromakov_Maxim
                                                 }
                                                 line = rd.ReadLine();
                                                 keyItem = line.Split(": ");
+                                                if (line == "==========") break;
                                                 sides.Add(double.Parse(keyItem[1]));
                                             }
                                             switch (IDorType)
@@ -215,6 +216,7 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         line = rd.ReadLine();
                                         keyItem = line.Split(": ");
+                                        if (line == "==========") break;
                                         sides.Add(double.Parse(keyItem[1]));
                                     }
                                     switch (type)
@@ -257,7 +259,7 @@ namespace Test_task_by_Khromakov_Maxim
                 }
             }
         }
-        public void Update(string path, int ID, string type, double[] newSizeSides, string[] nameKey)
+        public void Update(string path, int ID, string type, List<double> newSizeSides, string[] nameKey)
         {
             List<string> data = new List<string>();
             using (StreamReader sr = new StreamReader(path))
