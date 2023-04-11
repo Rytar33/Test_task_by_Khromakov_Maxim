@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
@@ -6,9 +7,10 @@ namespace Test_task_by_Khromakov_Maxim
     /// <summary> Треугольник </summary>
     class Trinagle : IFigure
     {
-        private double LeftSide { get; set; }
-        private double RightSide { get; set; }
-        private double BaseSide { get; set; }
+        private static List<double> SidesTrinagle { get; set; }
+        private double LeftSide = SidesTrinagle[0];
+        private double RightSide = SidesTrinagle[0];
+        private double BaseSide = SidesTrinagle[0];
 
         /// <summary>
         /// Конструктор треугольника
@@ -16,17 +18,12 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="leftSide">Левая сторона треугольника</param>
         /// <param name="rightSide">Правая сторона треугольника</param>
         /// <param name="baseSide">Основание треугольника</param>
-        public Trinagle(double leftSide, double rightSide, double baseSide)
-        {
-            this.LeftSide = leftSide;
-            this.RightSide = rightSide;
-            this.BaseSide = baseSide;
-        }
+        public Trinagle(List<double> sidesTrinagle) : base(sidesTrinagle) { }
         /// <summary>
         /// Вывод треугольника и его параметров сразу в консоль
         /// </summary>
         /// <param name="id">Индентификатор треугольника</param>
-        public void PrintFigure(int id)
+        public override void PrintFigure(int id)
         {
             WriteLine("===============================\n"
                 + $"ID фигуры: {id}\n"
@@ -45,7 +42,7 @@ namespace Test_task_by_Khromakov_Maxim
         /// Метод, благодаря которому мы получаем площадь треугольника
         /// </summary>
         /// <returns>Возвращает по формуле площадь треугольника (Корень из половины периметра * на (половина периметра - каждая из сторон) * ...)</returns>
-        public double GetArea()
+        public override double GetArea()
         {
             double halfPer = GetPerimeter() * 0.5;
             return Math.Sqrt(halfPer * (halfPer - LeftSide) * (halfPer - RightSide) * (halfPer - BaseSide));
@@ -55,7 +52,7 @@ namespace Test_task_by_Khromakov_Maxim
         /// Метод, благодаря которому мы получаем периметр треугольника
         /// </summary>
         /// <returns>Возвращает сумму всех сторон треугольника</returns>
-        public double GetPerimeter() => LeftSide + RightSide + BaseSide;
+        public override double GetPerimeter() => LeftSide + RightSide + BaseSide;
         /// <summary>
         /// Метод, благодаря которому мы получаем тип треугольника
         /// </summary>

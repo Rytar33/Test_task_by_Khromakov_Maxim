@@ -5,17 +5,26 @@ using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
+    enum Figures
+    {
+        Square,
+        Rectangle,
+        Trinagle,
+        Round
+    }
     /// <summary>
     /// Основной класс Program, который запускает приложение
     /// </summary>
     class Program
     {
+        enum ShortNameFigures { Square_AS, Rectangle_HZ, Rectangle_VC, Trinagle_LS, Trinagle_RS, Trinagle_BS, Round_R }
         static void Main()
         {
-            Loading();
+            //Loading();
             bool isMainMenu = true;
             do
             {
+                
                 Clear();
                 bool isCreateFigure = true, isPrintFigure = true, isChangeFigure = true;
                 WriteLine(
@@ -53,6 +62,7 @@ namespace Test_task_by_Khromakov_Maxim
                                         try
                                         {
                                             shortNameSide = EnterFigure(createChoise, sizeSide);
+                                            if (createChoise == "Rectangle" && sizeSide[0] == sizeSide[1]) createChoise = "Square";
                                         }
                                         catch (Exception) // Если введена строка, то выдаёт ошибку и возвращает заново переписывать
                                         {
@@ -71,22 +81,24 @@ namespace Test_task_by_Khromakov_Maxim
                                         }
                                         if (isNotZero)
                                         {
-                                            if (createChoise == "Rectangle" && sizeSide[0] == sizeSide[1]) createChoise = "Square";
                                             int ID = new WriteInformation()
                                                 .PutEnd("figures.txt", createChoise, sizeSide.ToArray(), shortNameSide);
+                                            var namespc = Type.GetType("Test_task_by_Khromakov_Maxim." + createChoise);
+                                            Type type = typeof(Trinagle);
+                                            
                                             switch (createChoise)
                                             {
                                                 case "Trinagle":
-                                                    new Trinagle(sizeSide[0], sizeSide[1], sizeSide[2]).PrintFigure(ID);
+                                                    new Trinagle(sizeSide).PrintFigure(ID);
                                                     break;
                                                 case "Rectangle":
-                                                    new Rectangle(sizeSide[0], sizeSide[1]).PrintFigure(ID);
+                                                    new Rectangle(sizeSide).PrintFigure(ID);
                                                     break;
                                                 case "Square":
-                                                    new Square(sizeSide[0]).PrintFigure(ID);
+                                                    new Square(sizeSide).PrintFigure(ID);
                                                     break;
                                                 case "Round":
-                                                    new Round(sizeSide[0]).PrintFigure(ID);
+                                                    new Round(sizeSide).PrintFigure(ID);
                                                     break;
                                                 default:
                                                     break;
@@ -133,7 +145,8 @@ namespace Test_task_by_Khromakov_Maxim
                                     break;
                                 case "2": // ..типам
                                     Clear();
-                                    Enter("тип на английском (Round, Square, Rectangle, Trinagle)", true);
+                                    string listFigure = string.Join(", ", Enum.GetNames(typeof(Figures)));
+                                    Enter($"тип на английском ({listFigure})", true);
                                     string type = ReadLine();
                                     new WriteInformation().Print("figures.txt", "Type", type);
                                     ClickToContinue(isPrintFigure = false, "Succses");
@@ -167,7 +180,6 @@ namespace Test_task_by_Khromakov_Maxim
                             wii.Update("figures.txt", id, typeName, sizeSides, nameKeyFigure);
                             wii.Print("figures.txt", "By ID", $"{id}");
                             ClickToContinue(isChangeFigure = false, "Succses");
-
                         } while (isChangeFigure);
                         break;
                     case "4": // Выход из меню
@@ -192,8 +204,6 @@ namespace Test_task_by_Khromakov_Maxim
                     Main();
                     break;
                 case "Close":
-                    Environment.Exit(0);
-                    break;
                 default:
                     Environment.Exit(0);
                     break;
@@ -225,45 +235,47 @@ namespace Test_task_by_Khromakov_Maxim
         /// <returns>Возвращает укороченное название сторон в массиве для того, чтобы записать в файл стороны фигуры</returns>
         static string[] EnterFigure(string typeFigure, List<double> sizeSides)
         {
-            List<string> shortNameSide = new List<string>();
+            List<string> longNameSideRu = new();
             switch (typeFigure)
             {
                 case "Trinagle":
-                    Enter("левую сторону");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    shortNameSide.Add("LS");
-                    Enter("правую сторону");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    shortNameSide.Add("RS");
-                    Enter("основание");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    shortNameSide.Add("BS");
+                    longNameSideRu = new List<string>() { "левую сторону", "правую сторону", "основание" };
                     break;
                 case "Square":
-                    Enter("размер всех 4-х сторон");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    shortNameSide.Add("AS");
+                    longNameSideRu = new List<string>() { "размер всех 4-х сторон" };
                     break;
                 case "Rectangle":
-                    Enter("размер по горизонтали");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    Enter("размер по вертикале");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    if (sizeSides[0] == sizeSides[1]) shortNameSide.Add("AS");
-                    else
-                    {
-                        shortNameSide.Add("HZ");
-                        shortNameSide.Add("VC");
-                    }
+                    longNameSideRu = new List<string>() { "размер по горизонтали", "размер по вертикале" };
                     break;
                 case "Round":
-                    Enter("окружность");
-                    sizeSides.Add(double.Parse(ReadLine()));
-                    shortNameSide.Add("R");
+                    longNameSideRu = new List<string>() { "окружность" };
                     break;
                 default:
                     ClickToContinue(typeLog: "Error", anotherText: "Вы ввели не существующую фигуру! ");
                     break;
+            }
+            foreach (string name in longNameSideRu)
+            {
+                Enter(name);
+                sizeSides.Add(double.Parse(ReadLine()));
+            }
+            return ParseIntoShortName(typeFigure, sizeSides);
+        }
+        /// <summary>
+        /// Конвертация в укороченные имена сторон фигур
+        /// </summary>
+        /// <param name="typeFigure">Тип фигуры</param>
+        /// <param name="sizeSides">Стороны фигур</param>
+        /// <returns>Возвращает укороченное название сторон в массиве</returns>
+        private static string[] ParseIntoShortName(string typeFigure, List<double> sizeSides)
+        {
+            List<string> shortNameSide = new List<string>();
+            if (sizeSides[0] == sizeSides[1] && typeFigure == "Rectangle") typeFigure = "Square";
+            string[] allNameFigures = Enum.GetNames(typeof(ShortNameFigures));
+            foreach (string item in allNameFigures)
+            {
+                string[] splitName = item.Split("_");
+                if (splitName[0] == typeFigure) shortNameSide.Add(splitName[1]);
             }
             return shortNameSide.ToArray();
         }

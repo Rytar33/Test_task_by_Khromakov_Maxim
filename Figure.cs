@@ -1,14 +1,18 @@
+using System.Collections.Generic;
+
 namespace Test_task_by_Khromakov_Maxim
 {
     /// <summary> Интерфейс фигуры </summary>
-    interface IFigure
+    abstract class IFigure
     {
-        /// <summary> Метод, благодар¤ которому мы выводим фигуру в консоль </summary>
+        private List<double> Sides { get; set; }
+        public IFigure(List<double> sides) => this.Sides = sides;
+        /// <summary> Метод, благодаря которому мы выводим фигуру в консоль </summary>
         /// <param name="ID">Индентификатор фигуры</param>
-        public void PrintFigure(int ID);
+        public abstract void PrintFigure(int ID);
         /// <summary> Метод, благодаря которому мы получаем плошадь фигуры </summary>
-        public double GetArea();
+        public abstract double GetArea();
         /// <summary> Метод, благодаря которому мы получаем периметр фигуры </summary>
-        public double GetPerimeter();
+        public abstract double GetPerimeter();
     }
 }
