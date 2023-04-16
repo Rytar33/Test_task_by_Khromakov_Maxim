@@ -20,15 +20,21 @@ namespace Test_task_by_Khromakov_Maxim
         enum ShortNameFigures { Square_AS, Rectangle_HZ, Rectangle_VC, Trinagle_LS, Trinagle_RS, Trinagle_BS, Round_R }
         static void Main()
         {
-            //Loading();
+            Loading();
             bool isMainMenu = true;
+            string file = "figures.txt";
             do
             {
-                
                 Clear();
                 bool isCreateFigure = true, isPrintFigure = true, isChangeFigure = true;
-                WriteLine(
-                                "\t\tМеню\n" +
+                //Type figure = Type.GetType("Test_task_by_Khromakov_Maxim." + "Trinagle");
+                //if(figure is not null)
+                //{
+                //    MethodInfo rectangle = figure.GetMethod("PrintFigure", new Type[] { typeof (int) });
+                //    string result = rectangle.Invoke(null, new object[] { 4 }).ToString();
+                //    WriteLine(result);
+                //}
+                WriteLine(      "\t\tМеню\n" +
                     "1\t| Создание новой фигуры\t\t |\n" +
                     "2\t| Просмотр текущих фигур\t |\n" +
                     "3\t| Обновление данных списка фигур |\n" +
@@ -64,7 +70,7 @@ namespace Test_task_by_Khromakov_Maxim
                                             shortNameSide = EnterFigure(createChoise, sizeSide);
                                             if (createChoise == "Rectangle" && sizeSide[0] == sizeSide[1]) createChoise = "Square";
                                         }
-                                        catch (Exception) // Если введена строка, то выдаёт ошибку и возвращает заново переписывать
+                                        catch (FormatException) // Если введена строка, то выдаёт ошибку и возвращает заново переписывать
                                         {
                                             ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
                                             continue;
@@ -82,28 +88,23 @@ namespace Test_task_by_Khromakov_Maxim
                                         if (isNotZero)
                                         {
                                             int ID = new WriteInformation()
-                                                .PutEnd("figures.txt", createChoise, sizeSide.ToArray(), shortNameSide);
-                                            var namespc = Type.GetType("Test_task_by_Khromakov_Maxim." + createChoise);
-                                            Type type = typeof(Trinagle);
-                                            
+                                                .PutEnd(file, createChoise, sizeSide.ToArray(), shortNameSide);
                                             switch (createChoise)
                                             {
                                                 case "Trinagle":
-                                                    new Trinagle(sizeSide).PrintFigure(ID);
+                                                    new Trinagle(sizeSide[0], sizeSide[1], sizeSide[2]).PrintFigure(ID);
                                                     break;
                                                 case "Rectangle":
-                                                    new Rectangle(sizeSide).PrintFigure(ID);
+                                                    new Rectangle(sizeSide[0], sizeSide[1]).PrintFigure(ID);
                                                     break;
                                                 case "Square":
-                                                    new Square(sizeSide).PrintFigure(ID);
+                                                    new Square(sizeSide[0]).PrintFigure(ID);
                                                     break;
                                                 case "Round":
-                                                    new Round(sizeSide).PrintFigure(ID);
-                                                    break;
-                                                default:
+                                                    new Round(sizeSide[0]).PrintFigure(ID);
                                                     break;
                                             }
-                                            ClickToContinue(isCreateFigure = false, "Succses");
+                                            ClickToContinue(isCreateFigure = false, "Succses", "Фигура успешна создана! ");
                                         }
 
                                     } while (isCreateFigure);
@@ -117,70 +118,70 @@ namespace Test_task_by_Khromakov_Maxim
                             }
                         } while (isCreateFigure);
                         break;
-                    case "2": // Вывод фигур по...
+                    case "2": // Вывод фигур(ы)...
                         do
                         {
                             Clear();
                             WriteLine("1) По ID\n" + "2) По типам(работает с багами)\n" + "3) Все\n" + "4) Назад");
-                            Enter("как вы бы хотели вывести фигуры: ", true);
+                            Enter("как вы бы хотели вывести фигуры", true);
                             string choiseType = ReadLine();
+                            WriteInformation wr = new WriteInformation();
+                            string leftText = "";
+                            bool error = false;
                             switch (choiseType)
                             {
-                                case "1": // ..ID
+                                case "1": // ..по ID
                                     Clear();
                                     Enter("ID");
                                     int id;
                                     try
                                     {
                                         id = int.Parse(ReadLine());
+                                        if (!wr.IsIDAtFile(file, id))
+                                        {
+                                            ClickToContinue(typeLog: "Error", anotherText: "Вы ввели несуществующий индентификатор! ");
+                                            continue;
+                                        }
                                     }
-                                    catch (Exception)
+                                    catch (FormatException ex)
                                     {
-                                        ClickToContinue(typeLog: "Error", anotherText: "Вы ввели НЕ числовое значение! ");
+                                        ClickToContinue(typeLog: "Error", anotherText: $"Вы ввели НЕ числовое значение!({ex.Message}) ");
                                         continue;
                                         throw;
                                     }
-                                    new WriteInformation().Print("figures.txt", "By ID", $"{id}");
-                                    ClickToContinue(isPrintFigure = false, "Succses");
+                                    wr.Print(file, "By ID", $"{id}");
+                                    leftText = "Фигура успешно выведена! ";
                                     break;
-                                case "2": // ..типам
+                                case "2": // ..по типам
                                     Clear();
                                     string listFigure = string.Join(", ", Enum.GetNames(typeof(Figures)));
                                     Enter($"тип на английском ({listFigure})", true);
                                     string type = ReadLine();
-                                    new WriteInformation().Print("figures.txt", "Type", type);
-                                    ClickToContinue(isPrintFigure = false, "Succses");
+                                    if (!wr.IsType(type))
+                                    {
+                                        ClickToContinue(typeLog: "Error", anotherText: "Вы ввели несуществующую фигуру! ");
+                                        continue;
+                                    }
+                                    wr.Print(file, "Type", type);
+                                    leftText = $"{type}`s успешно выведены! ";
                                     break;
                                 case "3": // Все
-                                    new WriteInformation().Print("figures.txt", "All");
-                                    ClickToContinue(isPrintFigure = false, "Succses");
+                                    wr.Print(file, "All");
+                                    leftText = "Все фигуры успешно выведены! ";
                                     break;
                                 case "4": // Назад
-                                    isPrintFigure = false;
                                     break;
                                 default:
                                     ClickToContinue(typeLog: "Error", anotherText: "Вы ввели неверное значение! ");
+                                    error = true;
                                     break;
                             }
+                            if(!error) isPrintFigure = false;
+                            if (!isPrintFigure && choiseType != "4") ClickToContinue(isPrintFigure, "Succses", leftText);
                         } while (isPrintFigure);
                         break;
                     case "3": // Обновление какой то фигуры
-                        do
-                        {
-                            Clear();
-                            WriteInformation wii = new WriteInformation();
-                            wii.Print("figures.txt", "All"); // Предоставление пользователю список фигур, которые он может изменить
-                            Enter("ID фигуры которую вы бы хотели изменить");
-                            int id = int.Parse(ReadLine());
-                            List<double> sizeSides = new List<double>();
-                            Clear();
-                            Enter("тип фигуры на который вы бы хотели поменять(по англ)", true);
-                            string typeName = ReadLine();
-                            string[] nameKeyFigure = EnterFigure(typeName, sizeSides);
-                            wii.Update("figures.txt", id, typeName, sizeSides, nameKeyFigure);
-                            wii.Print("figures.txt", "By ID", $"{id}");
-                            ClickToContinue(isChangeFigure = false, "Succses");
-                        } while (isChangeFigure);
+                        UpdateFile(file, isChangeFigure);
                         break;
                     case "4": // Выход из меню
                         Clear();
@@ -212,6 +213,7 @@ namespace Test_task_by_Khromakov_Maxim
         /// <summary> Условная загрузка приложения </summary>
         static void Loading()
         {
+            CursorVisible = false;
             Log();
             Write("Loading");
             int i = 0;
@@ -226,7 +228,9 @@ namespace Test_task_by_Khromakov_Maxim
             Log("Succses");
             Write("Loading completed!");
             Thread.Sleep(1500);
+            CursorVisible = true;
         }
+
         /// <summary>
         /// Ввод информации сторон фигур
         /// </summary>
@@ -261,6 +265,37 @@ namespace Test_task_by_Khromakov_Maxim
             }
             return ParseIntoShortName(typeFigure, sizeSides);
         }
+        static void UpdateFile(string file, bool cickle)
+        {
+            do
+            {
+                Clear();
+                WriteInformation wr = new WriteInformation();
+                wr.Print(file, "All"); // Предоставление пользователю список фигур, которые он может изменить
+                Enter("ID фигуры которую вы бы хотели изменить");
+                int id = int.Parse(ReadLine());
+                if (!wr.IsIDAtFile(file, id))
+                {
+                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели несуществующий индентификатор! ");
+                    continue;
+                }
+                List<double> sizeSides = new List<double>();
+                string listFigure = string.Join(", ", Enum.GetNames(typeof(Figures)));
+                Enter($"тип фигуры на который вы бы хотели поменять({listFigure})", true);
+                string typeName = ReadLine();
+                if (!wr.IsType(typeName))
+                {
+                    ClickToContinue(typeLog: "Error", anotherText: "Вы ввели несуществующую фигуру! ");
+                    continue;
+                }
+                string[] nameKeyFigure = EnterFigure(typeName, sizeSides);
+                Clear();
+                wr.Update(file, id, typeName, sizeSides, nameKeyFigure);
+                wr.Print(file, "By ID", $"{id}");
+                ClickToContinue(cickle = false, "Succses", "Фигура успешно обновлена! ");
+            } while (cickle);
+        }
+
         /// <summary>
         /// Конвертация в укороченные имена сторон фигур
         /// </summary>
@@ -270,7 +305,7 @@ namespace Test_task_by_Khromakov_Maxim
         private static string[] ParseIntoShortName(string typeFigure, List<double> sizeSides)
         {
             List<string> shortNameSide = new List<string>();
-            if (sizeSides[0] == sizeSides[1] && typeFigure == "Rectangle") typeFigure = "Square";
+            if (typeFigure == "Rectangle" && sizeSides[0] == sizeSides[1]) typeFigure = "Square";
             string[] allNameFigures = Enum.GetNames(typeof(ShortNameFigures));
             foreach (string item in allNameFigures)
             {

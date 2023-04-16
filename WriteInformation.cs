@@ -122,7 +122,7 @@ namespace Test_task_by_Khromakov_Maxim
             {
                 string[] splWords = dataFile[i].Split(": ");
                 if (dataFile[i] == "==========") continue;
-                if (ID == int.Parse(splWords[1]) && splWords[0] == "ID") // Находим тот ID который мы искали
+                if (splWords[0] == "ID" && ID == int.Parse(splWords[1])) // Находим тот ID который мы искали
                 {
                     indID = i; // В случае нахождения, записываем и завершаем функцию
                     break;
@@ -162,7 +162,8 @@ namespace Test_task_by_Khromakov_Maxim
                     }
                     else if (printBy == "Type" && keyItem[1] == getType) {
                         type = keyItem[1];
-                        NextLine(line, rd, keyItem);
+                        line = NextLine(line, rd, keyItem);
+                        keyItem = NewKeyLine(line, keyItem);
                     }
                     else if (printBy == "Type" && keyItem[1] != getType) continue;
                     List<double> sides = new List<double>();
@@ -172,7 +173,8 @@ namespace Test_task_by_Khromakov_Maxim
                             sides.Add(double.Parse(keyItem[1]));
                             continue;
                         }
-                        NextLine(line, rd, keyItem);
+                        line = NextLine(line, rd, keyItem);
+                        keyItem = NewKeyLine(line, keyItem);
                         if (line == "==========") break;
                         sides.Add(double.Parse(keyItem[1]));
                     }
@@ -187,18 +189,15 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="line">Строка на которой находится счётчик файла</param>
         /// <param name="rd">Читаемый файл</param>
         /// <param name="keyItem">Разделитель строк, который делит ключ на 0 индекс и параметр на 1 индекс</param>
-        private void NextLine(string line, StreamReader rd, string[] keyItem)
-        {
-            line = rd.ReadLine();
-            keyItem = line.Split(": ");
-        }
+        private string NextLine(string line, StreamReader rd, string[] keyItem) => rd.ReadLine();
+        private string[] NewKeyLine(string line, string[] keyItem) => line.Split(": ");
         /// <summary>
         /// Записывает в переменную файл
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="data">Лист информации, которая запоминает весь файл в переменную</param>
         /// <returns>Возвращает лист информации в строковом листе</returns>
-        private List<string> WholeFile(string path, List<string> data)
+        public List<string> WholeFile(string path, List<string> data)
         {
             using (StreamReader sr = new StreamReader(path))
             {
@@ -206,6 +205,33 @@ namespace Test_task_by_Khromakov_Maxim
                 while ((line = sr.ReadLine()) is not null) data.Add(line);
                 return data;
             }
+        }
+        public bool IsIDAtFile(string path, int ID)
+        {
+            List<string> data = new List<string>();
+            data = WholeFile(path, data);
+            using StreamReader rd = new(path);
+            string line;
+            while ((line = rd.ReadLine()) != null)
+            {
+                string[] words = line.Split(": ");
+                for (int i = 0; i < data.Count; i++)
+                {
+                    string[] splWords = data[i].Split(": ");
+                    if (data[i] == "==========") continue;
+                    if (splWords[0] == "ID" && (ID == int.Parse(splWords[1]))) return true; // Находим тот ID который мы искали и в случае нахождения, записываем и завершаем функцию
+                }
+            }
+            return false;
+        }
+        public bool IsType(string type)
+        {
+            string[] allNameFigures = Enum.GetNames(typeof(Figures));
+            foreach (string name in allNameFigures)
+            {
+                if (name == type) return true;
+            }
+            return false;
         }
         /// <summary>
         /// Вызов класса и метода для вывода в консоль информацию для каждой фигуры
@@ -219,16 +245,16 @@ namespace Test_task_by_Khromakov_Maxim
             switch (type)
             {
                 case "Square":
-                    new Square(sides).PrintFigure(ID);
+                    new Square(sides[0]).PrintFigure(ID);
                     break;
                 case "Rectangle":
-                    new Rectangle(sides).PrintFigure(ID);
+                    new Rectangle(sides[0], sides[1]).PrintFigure(ID);
                     break;
                 case "Trinagle":
-                    new Trinagle(sides).PrintFigure(ID);
+                    new Trinagle(sides[0], sides[1], sides[2]).PrintFigure(ID);
                     break;
                 case "Round":
-                    new Round(sides).PrintFigure(ID);
+                    new Round(sides[0]).PrintFigure(ID);
                     break;
                 default:
                     break;
