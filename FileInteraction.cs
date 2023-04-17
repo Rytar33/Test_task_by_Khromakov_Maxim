@@ -8,8 +8,17 @@ namespace Test_task_by_Khromakov_Maxim
     /// <summary>
     /// Класс, который взаимодействует с файловой системой приложения (обновляя, добавляя и выводя в консоль)
     /// </summary>
-    class WriteInformation
+    class FileInteraction
     {
+        /// <summary>
+        /// Ссылка на файл
+        /// </summary>
+        private string File { get; set; }
+        /// <summary>
+        /// Конструктор класса File Interaction
+        /// </summary>
+        /// <param name="file">Ссылка на файл с которым происходит взаимодействие</param>
+        public FileInteraction(string file) => this.File = file;
         /// <summary>
         /// Создание новой фигуры в конец файла
         /// </summary>
@@ -18,10 +27,10 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="sizeSides">Значение размеров длины каждой стороны фигуры в массиве</param>
         /// <param name="nameSides">Сокращенное название каждой сторон фигур в массиве</param>
         /// <returns>Возвращает новый индентификатор, чтобы можно было его сразу вывести в консоль после создания</returns>
-        public int PutEnd(string path, string typeFigure, double[] sizeSides, string[] nameSides)
+        public int PutEnd(string typeFigure, double[] sizeSides, string[] nameSides)
         {
             int id = 0;
-            using (StreamReader rd = new StreamReader(path)) // Чтение файла
+            using (StreamReader rd = new StreamReader(File)) // Чтение файла
             {
                 string line;
                 while ((line = rd.ReadLine()) != null)
@@ -34,7 +43,7 @@ namespace Test_task_by_Khromakov_Maxim
                     }
                 }
             }
-            using (StreamWriter wr = new StreamWriter(path, true)) // Запись в файл
+            using (StreamWriter wr = new StreamWriter(File, true)) // Запись в файл
             {
                 id++; // Инкрименция ID
                 wr.WriteLine("==========\n"
@@ -52,11 +61,11 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="path">Путь к файлу</param>
         /// <param name="by">По какому типу будет вывод (По ID, Типам, Все)</param>
         /// <param name="IDorType">Ввод в текстовом формате ID или название типа фигуры</param>
-        public void Print(string path, string by, string IDorType = "")
+        public void Print(string by, string IDorType = "")
         {
             List<string> data = new List<string>();
-            WholeFile(path, data);
-            using StreamReader rd = new(path);
+            WholeFile(data);
+            using StreamReader rd = new(File);
             string line;
             while ((line = rd.ReadLine()) != null)
             {
@@ -86,10 +95,10 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="type">Тип фигуры</param>
         /// <param name="newSizeSides">Новые размеры сторон фигуры</param>
         /// <param name="nameKey">Укороченное название сторон фигуры</param>
-        public void Update(string path, int ID, string type, List<double> newSizeSides, string[] nameKey)
+        public void Update(int ID, string type, List<double> newSizeSides, string[] nameKey)
         {
             List<string> data = new List<string>();
-            WholeFile(path, data);
+            WholeFile(data);
             for (int i = 0; i < data.Count; i++)
             {
                 string[] keyInf = data[i].Split(": ");
@@ -106,7 +115,7 @@ namespace Test_task_by_Khromakov_Maxim
                     break;
                 }
             }
-            using StreamWriter wr = new(path, false);
+            using StreamWriter wr = new(File, false);
             for (int i = 0; i < data.Count; i++)
                 wr.WriteLine(data[i]);
         }
@@ -122,7 +131,7 @@ namespace Test_task_by_Khromakov_Maxim
             {
                 string[] splWords = dataFile[i].Split(": ");
                 if (dataFile[i] == "==========") continue;
-                if (ID == int.Parse(splWords[1]) && splWords[0] == "ID") // Находим тот ID который мы искали
+                if (splWords[0] == "ID" && ID == int.Parse(splWords[1])) // Находим тот ID который мы искали
                 {
                     indID = i; // В случае нахождения, записываем и завершаем функцию
                     break;
@@ -148,31 +157,30 @@ namespace Test_task_by_Khromakov_Maxim
         {
             int Id = 0;
             string type = "";
-            int[] countFigures = new int[4];
-            while ((line = rd.ReadLine()) != null)
-            {
+            int[] countFigures = new int[Enum.GetNames(typeof(Figures)).Length];
+            while ((line = rd.ReadLine()) != null) {
                 string[] keyItem = line.Split(": ");
                 if (line == "==========") continue; // Чтобы не было вызова ошибки, ставим такую затычку
                 else if (keyItem[0] == "ID") Id = int.Parse(keyItem[1]); // Записываем каждый раз ID
-                else if ((keyItem[0] == "Type" && printBy == "Type") || line != "==========") 
-                {
+                else if ((keyItem[0] == "Type" && printBy == "Type") || line != "==========") {
                     if (printBy != "Type" && keyItem[0] == "Type") {
                         type = keyItem[1];
                         continue;
                     }
                     else if (printBy == "Type" && keyItem[1] == getType) {
                         type = keyItem[1];
-                        NextLine(line, rd, keyItem);
+                        line = NextLine(rd);
+                        keyItem = NewKeyLine(line);
                     }
                     else if (printBy == "Type" && keyItem[1] != getType) continue;
                     List<double> sides = new List<double>();
-                    for (int i = 0; line != "=========="; i++)
-                    {
+                    for (int i = 0; line != "=========="; i++) {
                         if (i == 0) {
                             sides.Add(double.Parse(keyItem[1]));
                             continue;
                         }
-                        NextLine(line, rd, keyItem);
+                        line = NextLine(rd);
+                        keyItem = NewKeyLine(line);
                         if (line == "==========") break;
                         sides.Add(double.Parse(keyItem[1]));
                     }
@@ -184,29 +192,52 @@ namespace Test_task_by_Khromakov_Maxim
         /// <summary>
         /// Переход на следующую строку в файле
         /// </summary>
-        /// <param name="line">Строка на которой находится счётчик файла</param>
         /// <param name="rd">Читаемый файл</param>
-        /// <param name="keyItem">Разделитель строк, который делит ключ на 0 индекс и параметр на 1 индекс</param>
-        private void NextLine(string line, StreamReader rd, string[] keyItem)
-        {
-            line = rd.ReadLine();
-            keyItem = line.Split(": ");
-        }
+        /// <returns>Возвращает следующую строку</returns>
+        private string NextLine(StreamReader rd) => rd.ReadLine();
+        /// <summary>
+        /// Раздел новой строки на ключ и значение
+        /// </summary>
+        /// <param name="line">Строка на которой находится счётчик файла</param>
+        /// <returns>Возвращает раздел строки ключа и значения</returns>
+        private string[] NewKeyLine(string line) => line.Split(": ");
         /// <summary>
         /// Записывает в переменную файл
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="data">Лист информации, которая запоминает весь файл в переменную</param>
         /// <returns>Возвращает лист информации в строковом листе</returns>
-        private List<string> WholeFile(string path, List<string> data)
+        public List<string> WholeFile(List<string> data)
         {
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(File))
             {
                 string line;
                 while ((line = sr.ReadLine()) is not null) data.Add(line);
                 return data;
             }
         }
+        /// <summary>
+        /// Метод, который проверяет - существует ли введёный индентификатор в файле
+        /// </summary>
+        /// <param name="ID">Вводимый индентификатор</param>
+        /// <returns>Возвращает булевое значение есть ли индентификатор или нет</returns>
+        public bool IsIDAtFile(int ID)
+        {
+            List<string> data = new List<string>();
+            data = WholeFile(data);
+            foreach (string line in data) {
+                string[] splWords = line.Split(": ");
+                if (line == "==========") continue;
+                if (splWords[0] == "ID" && (ID == int.Parse(splWords[1]))) return true; // Находим тот ID который мы искали и в случае нахождения, записываем и завершаем функцию
+            }
+            return false;
+        }
+        /// <summary>
+        /// Метод, который проверяет - существует ли введёный тип фигуры в файле
+        /// </summary>
+        /// <param name="type">Вводимый тип фигуры</param>
+        /// <returns>Возвращает булевое значение есть ли тип фигуры или нет</returns>
+        public bool IsType(string type) => new List<string>(Enum.GetNames(typeof(Figures))).Contains(type);
         /// <summary>
         /// Вызов класса и метода для вывода в консоль информацию для каждой фигуры
         /// </summary>
@@ -216,24 +247,16 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="countFigure">Необязательный параметр, используется в списке, принимает массив количества фигур, считая каждую фигуру которую найдёт</param>
         private void PrintFigure(List<double> sides, string type, int ID, int[] countFigure = null) 
         {
-            switch (type)
+            IFigure figure = type switch
             {
-                case "Square":
-                    new Square(sides[0]).PrintFigure(ID);
-                    break;
-                case "Rectangle":
-                    new Rectangle(sides[0], sides[1]).PrintFigure(ID);
-                    break;
-                case "Trinagle":
-                    new Trinagle(sides[0], sides[1], sides[2]).PrintFigure(ID);
-                    break;
-                case "Round":
-                    new Round(sides[0]).PrintFigure(ID);
-                    break;
-                default:
-                    break;
-            }
-            if(countFigure is not null) countFigure[(int)Enum.Parse(typeof(Figures), type)]++;
+                "Trinagle" => new Trinagle(sides[0], sides[1], sides[2]),
+                "Rectangle" => new Rectangle(sides[0], sides[1]),
+                "Square" => new Square(sides[0]),
+                "Round" => new Round(sides[0]),
+                _ => null
+            };
+            figure?.PrintFigure(ID);
+            if (countFigure is not null) countFigure[(int)Enum.Parse(typeof(Figures), type)]++;
         }
         /// <summary>
         /// Выводит в консоль количество фигур
@@ -243,18 +266,14 @@ namespace Test_task_by_Khromakov_Maxim
         /// <param name="Type">Необязательный параметр, если выводит 1 тип фигуры, то условно обязателен. Принимает тип фигуры</param>
         private void PrintCountFigures(string typeOrAll, int[] countFigures, string Type = "")
         {
-            if (typeOrAll == "All")
-            {
+            if (typeOrAll == "All") {
                 string[] allNameFigures = Enum.GetNames(typeof(Figures));
-                foreach (string nameFigure in allNameFigures)
+                foreach (string nameFigure in allNameFigures) 
                 {
                     WriteLine($"Count {nameFigure}`s: {countFigures[(int) Enum.Parse(typeof(Figures), nameFigure)]}; ");
                 }
             }
-            else if (typeOrAll == "Type")
-            {
-                WriteLine($"Count {Type}`s: {countFigures[(int) Enum.Parse(typeof(Figures), Type)]}");
-            }
+            else if (typeOrAll == "Type") WriteLine($"Count {Type}`s: {countFigures[(int) Enum.Parse(typeof(Figures), Type)]}");
         }
     }
 }
