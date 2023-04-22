@@ -1,0 +1,12 @@
+==========
+Type: Trinagle
+Side data: 4 7 2
+==========
+==========
+Type: Trinagle
+Side data: 5 2 5
+==========
+==========
+Type: Rectangle
+Side data: 5,2 6,2
+==========
