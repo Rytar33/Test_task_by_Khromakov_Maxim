@@ -1,6 +1,5 @@
 using System;
 using Test_task_by_Khromakov_Maxim.Figures;
-using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {

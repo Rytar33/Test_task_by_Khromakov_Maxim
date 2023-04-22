@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Test_task_by_Khromakov_Maxim.Figures;
 
 namespace Test_task_by_Khromakov_Maxim.Commands
 {
+    /// <summary> Добавление треугольника </summary>
     public class AddTrinagleCommand : ICommand
     {
         private List<IFigure> Figures = new List<IFigure>();
@@ -14,7 +12,8 @@ namespace Test_task_by_Khromakov_Maxim.Commands
             Figures = figures;
         }
         public string Name => "AddTrinagle";
-
+        /// <summary> Выполнение команды "Добавление треугольника" </summary>
+        /// <param name="data">Информация о фигуре</param>
         public async void Execute(string data, int indexFigure = -1)
         {
             string[] datas = data.Split(' ');

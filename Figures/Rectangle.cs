@@ -1,6 +1,5 @@
 using System;
 using Test_task_by_Khromakov_Maxim.Figures;
-using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
 {
@@ -9,6 +8,7 @@ namespace Test_task_by_Khromakov_Maxim
     {
         /// <summary> Размер горизонтальной стороны </summary>
         private double Horizontally { get; set; }
+        /// <summary> Размер вертикальной стороны </summary>
         private double Vertically { get; set; }
         public string Name => "Rectangle";
         public string Data => $"{Horizontally} {Vertically}";
@@ -35,9 +35,7 @@ namespace Test_task_by_Khromakov_Maxim
                 + "===============================";
         }
         public double GetArea() => Horizontally * Vertically;
-        /// <summary>
-        /// Метод, благодаря которому мы получаем периметр прямоугольника
-        /// </summary>
+        /// <summary> Метод, благодаря которому мы получаем периметр прямоугольника </summary>
         /// <returns>Возвращает периметр прямоугольника по формуле (2 * горизонтальную сторону) + (2 * вертикальную сторону)</returns>
         public double GetPerimeter() => (2 * Horizontally) + (2 * Vertically);
     }

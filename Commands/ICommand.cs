@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Test_task_by_Khromakov_Maxim.Commands
+﻿namespace Test_task_by_Khromakov_Maxim.Commands
 {
     /// <summary> Интерфейс команды </summary>
     public interface ICommand
