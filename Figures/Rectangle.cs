@@ -1,4 +1,5 @@
 using System;
+using Test_task_by_Khromakov_Maxim.Figures;
 using static System.Console;
 
 namespace Test_task_by_Khromakov_Maxim
@@ -6,8 +7,11 @@ namespace Test_task_by_Khromakov_Maxim
     /// <summary> Прямоугольник </summary>
     class Rectangle : IFigure
     {
+        /// <summary> Размер горизонтальной стороны </summary>
         private double Horizontally { get; set; }
         private double Vertically { get; set; }
+        public string Name => "Rectangle";
+        public string Data => $"{Horizontally} {Vertically}";
         /// <summary> Конструктор прямоугольника </summary>
         /// <param name="horizontally">Горизонтальные сторона прямоугольника</param>
         /// <param name="vertically">Вертикальная сторона прямоугольника</param>
@@ -19,18 +23,16 @@ namespace Test_task_by_Khromakov_Maxim
         /// <summary>
         /// Вывод прямоугольника и его параметров сразу в консоль
         /// </summary>
-        /// <param name="id">Индентификатор прямоугольника</param>
-        public void PrintFigure(int id)
+        public override string ToString()
         {
-            WriteLine("===============================\n"
-                + $"ID фигуры: {id}\n"
+            return "===============================\n"
                 + "Фигура: Прямоугольник\n"
                 + "\tРазмеры сторон\n"
                 + $"По горизонтали: {Horizontally}\n"
                 + $"По вертикали: {Vertically}\n"
                 + $"Периметр: {Math.Round(GetPerimeter(), 2)}\n"
                 + $"Площадь: {Math.Round(GetArea(), 2)}\n"
-                + "===============================");
+                + "===============================";
         }
         public double GetArea() => Horizontally * Vertically;
         /// <summary>
