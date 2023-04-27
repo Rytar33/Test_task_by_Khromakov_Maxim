@@ -5,16 +5,17 @@ using Test_task_by_Khromakov_Maxim.Figures;
 
 namespace Test_task_by_Khromakov_Maxim.Commands
 {
-    /// <summary> Вытаскивание и запись в лист фигур всю информацию из файла об фигурах которые в нём хранятся </summary>
+    /// <summary> Вытаскивание и запись в лист фигур всей информации из файла о фигурах, которые в нём хранятся </summary>
     public class PullingOutFiguresFromFileCommand : ICommand
     {
-        List<IFigure> Figures = new List<IFigure>();
-        public PullingOutFiguresFromFileCommand(List<IFigure> figures) {
-            Figures = figures;
-        }
-        public string Name => "PullingOutFiguresFromFile()";
+        /// <summary> Лист фигур в оперативной памяти </summary>
+        private List<IFigure> Figures = new List<IFigure>();
+        /// <summary> Конструктор команды </summary>
+        /// <param name="figures">Принимает лист фигур</param>
+        public PullingOutFiguresFromFileCommand(List<IFigure> figures) => Figures = figures;
+        public string Name => "PullingOutFiguresFromFile";
         /// <summary> Выполнение команды "Вытащить и записать в лист фигур из файла" </summary>
-        public async void Execute(string data = "", int indexFigure = -1)
+        public async void Execute(string data = null)
         {
             Console.Write("Как только вы продолжите, все фигуры удаляться из памяти и заменяться из файла. Продолжить?(Y/N): ");
             if (Console.ReadLine() != "Y") return;
@@ -33,11 +34,8 @@ namespace Test_task_by_Khromakov_Maxim.Commands
                     }
                     
                     List<double> sides = new List<double>();
-                    string[] datas = keyItem[1].Split(' '); // Разделение значений фигуры
-                    foreach (string s in datas)
-                    {
-                        sides.Add(double.Parse(s));
-                    }
+                    List<string> datas = new List<string>(keyItem[1].Split(' ')); // Разделение значений фигуры
+                    datas.ForEach(itemSide => sides.Add(double.Parse(itemSide)));
                     AddFigure(sides, type); // Добавление фигуры в лист
                 }
             }

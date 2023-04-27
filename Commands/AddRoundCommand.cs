@@ -7,14 +7,15 @@ namespace Test_task_by_Khromakov_Maxim.Commands
     /// <summary> Добавление круга </summary>
     public class AddRoundCommand : ICommand
     {
+        /// <summary> Лист фигур в оперативной памяти </summary>
         private List<IFigure> Figures = new List<IFigure>();
-        public AddRoundCommand(List<IFigure> figures) {
-            Figures = figures;
-        }
+        /// <summary> Конструктор команды </summary>
+        /// <param name="figures">Принимает лист фигур</param>
+        public AddRoundCommand(List<IFigure> figures) => Figures = figures;
         public string Name => "AddRound";
         /// <summary> Выполнение команды "Добавление круга" </summary>
         /// <param name="data">Информация о фигуре</param>
-        public async void Execute(string data, int indexFigure = -1)
+        public async void Execute(string data)
         {
             var Radius = Convert.ToDouble(data);
             this.Figures.Add(new Round(Radius));

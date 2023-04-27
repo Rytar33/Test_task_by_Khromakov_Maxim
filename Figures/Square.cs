@@ -8,7 +8,9 @@ namespace Test_task_by_Khromakov_Maxim
     {
         /// <summary> Размер всех 4-х сторон </summary>
         private double SizeOfAllSides { get; set; }
+        /// <summary> Название фигуры квадрата </summary>
         public string Name => "Square";
+        /// <summary> Все стороны квадрата </summary>
         public string Data => $"{SizeOfAllSides}";
         /// <summary> Конструктор квадрата </summary>
         /// <param name="sizeOfAllSides">Все 4 стороны квадрата</param>

@@ -8,7 +8,9 @@ namespace Test_task_by_Khromakov_Maxim
     {
         /// <summary> Радиус </summary>
         private double Radius { get; set; }
+        /// <summary> Название фигуры круга </summary>
         public string Name => "Round";
+        /// <summary> Радиус круга хранимый в информации о фигуре "круг" </summary>
         public string Data => $"{Radius}";
         /// <summary> Конструктор круга </summary>
         /// <param name="radius">Радиус круга</param>

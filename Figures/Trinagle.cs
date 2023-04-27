@@ -12,7 +12,9 @@ namespace Test_task_by_Khromakov_Maxim
         private double RightSide { get; set; }
         /// <summary> Размер основание </summary>
         private double BaseSide { get; set; }
+        /// <summary> Название фигуры треугольника </summary>
         public string Name => "Trinagle";
+        /// <summary> Все стороны треугольника </summary>
         public string Data => $"{LeftSide} {RightSide} {BaseSide}";
         /// <summary> Конструктор треугольника </summary>
         /// <param name="leftSide">Левая сторона треугольника</param>

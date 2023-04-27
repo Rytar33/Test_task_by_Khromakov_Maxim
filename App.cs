@@ -30,26 +30,24 @@ namespace Test_task_by_Khromakov_Maxim
             do {
                 Console.Clear();
                 var command = EnterCommand();
-                Commands.FirstOrDefault(com => com.Name == command.nameCommand)?.Execute(command.data, command.index);
+                Commands.FirstOrDefault(com => com.Name == command.nameCommand)?.Execute(command.data);
                 Console.Write("Нажмите чтобы продолжить: ");
                 Console.ReadKey();
             } while(true);
         }
         /// <summary> Метод благодаря которому вводим команду </summary>
         /// <returns>Возвращает: Имя команды, стороны фигуры, индекс фигуры</returns>
-        private (string nameCommand, string data, int index) EnterCommand()
+        private (string nameCommand, string data) EnterCommand()
         {
             Console.WriteLine("Введите команду");
             var text = Console.ReadLine();
-            if (text[^2] == '(' && text[^1] == ')') return (nameCommand: text, data: "", index: -1);
-            string[] textSp = text.Split(": ");
-            if (text.IndexOf('|') == -1) 
-            {   
-                var KeyAndValue = (name: textSp[0], data: textSp[1]);
-                return (nameCommand: KeyAndValue.name, data: KeyAndValue.data, index: -1);
+            if (text[^2] == '(' && text[^1] == ')') { // Метод выполняется когда команда не принимает информацию о фигуре
+                text = text.Remove(text.Length - 2);
+                return (nameCommand: text, data: null);
             }
-            var KeyValueInd = (name: textSp[0], data: textSp[1], index: textSp[1].Split(" | ")[1]);
-            return (nameCommand: KeyValueInd.name, data: KeyValueInd.data, index: int.Parse(KeyValueInd.index));
+            string[] textSp = text.Split(": ");
+            var KeyValueInd = (name: textSp[0], data: textSp[1]);
+            return (nameCommand: KeyValueInd.name, data: KeyValueInd.data);
         }
     }
 }

@@ -7,14 +7,15 @@ namespace Test_task_by_Khromakov_Maxim.Commands
     /// <summary> Добавление квадрата </summary>
     public class AddSquareCommand : ICommand
     {
+        /// <summary> Лист фигур в оперативной памяти </summary>
         private List<IFigure> Figures = new List<IFigure>();
-        public AddSquareCommand(List<IFigure> figures) {
-            Figures = figures;
-        }
+        /// <summary> Конструктор команды </summary>
+        /// <param name="figures">Принимает лист фигур</param>
+        public AddSquareCommand(List<IFigure> figures) => Figures = figures;
         public string Name => "AddSquare";
         /// <summary> Выполнение команды "Добавление квадрата" </summary>
         /// <param name="data">Информация о фигуре</param>
-        public async void Execute(string data, int indexFigure = -1)
+        public async void Execute(string data)
         {
             var EverySide = Convert.ToDouble(data);
             this.Figures.Add(new Square(EverySide));

@@ -10,7 +10,9 @@ namespace Test_task_by_Khromakov_Maxim
         private double Horizontally { get; set; }
         /// <summary> Размер вертикальной стороны </summary>
         private double Vertically { get; set; }
+        /// <summary> Название фигуры прямоугольника </summary>
         public string Name => "Rectangle";
+        /// <summary> Все стороны прямоугольника </summary>
         public string Data => $"{Horizontally} {Vertically}";
         /// <summary> Конструктор прямоугольника </summary>
         /// <param name="horizontally">Горизонтальные сторона прямоугольника</param>
@@ -20,9 +22,7 @@ namespace Test_task_by_Khromakov_Maxim
             this.Horizontally = horizontally;
             this.Vertically = vertically;
         }
-        /// <summary>
-        /// Вывод прямоугольника и его параметров сразу в консоль
-        /// </summary>
+        /// <summary> Вывод прямоугольника и его параметров сразу в консоль </summary>
         public override string ToString()
         {
             return "===============================\n"
@@ -34,6 +34,8 @@ namespace Test_task_by_Khromakov_Maxim
                 + $"Площадь: {Math.Round(GetArea(), 2)}\n"
                 + "===============================";
         }
+        /// <summary> Метод, благодаря которому мы получаем площадь прямоугольника </summary>
+        /// <returns>Возвращает площадь прямоугольника, умножая горизонтальную сторону и вертикальную между собой</returns>
         public double GetArea() => Horizontally * Vertically;
         /// <summary> Метод, благодаря которому мы получаем периметр прямоугольника </summary>
         /// <returns>Возвращает периметр прямоугольника по формуле (2 * горизонтальную сторону) + (2 * вертикальную сторону)</returns>

@@ -7,7 +7,6 @@
         string Name { get; }
         /// <summary> Метод выполнения команды </summary>
         /// <param name="data">Стороны фигуры</param>
-        /// <param name="indexFigure">Индекс фигуры</param>
-        void Execute(string data = "", int indexFigure = -1);
+        void Execute(string data = "");
     }
 }

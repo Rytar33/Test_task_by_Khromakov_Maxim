@@ -7,17 +7,18 @@ namespace Test_task_by_Khromakov_Maxim.Commands
     /// <summary> Обновление информации в фигуре </summary>
     public class UpdateFigureCommand : ICommand
     {
-        List<IFigure> Figures = new List<IFigure>();
-        public UpdateFigureCommand(List<IFigure> figures) { 
-            Figures = figures;
-        }
+        /// <summary> Лист фигур в оперативной памяти </summary>
+        private List<IFigure> Figures = new List<IFigure>();
+        /// <summary> Конструктор команды </summary>
+        /// <param name="figures">Принимает лист фигур</param>
+        public UpdateFigureCommand(List<IFigure> figures) => Figures = figures;
         public string Name => "UpdateFigure";
         /// <summary> Выполнение команды "Обновление информации в фигуре" </summary>
         /// <param name="data">Новая информация о фигуре</param>
-        /// <param name="indexFigure">Индекс фигуры</param>
-        public async void Execute(string data, int indexFigure)
+        public async void Execute(string data)
         {
             string[] side = data.Split(' ');
+            int indexFigure = int.Parse(data.Split(" | ")[1]);
             List<double> sides = new List<double>();
             foreach (var figure in side)
             {
